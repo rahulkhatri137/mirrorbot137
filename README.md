@@ -64,6 +64,7 @@ This project is heavily inspired from @out386 's telegram bot which is written i
 - Uploading To Team Drives.
 - Index Link support
 - Shortener support
+- No Duplicate mirrors
 - Extract password protected files (It's not hack, you have to enter password for extracting. LOL)
 
 - For extracting password protected files, using custom filename and download from password protected index links see these examples :-
@@ -87,7 +88,7 @@ list - [query] searches files in G-Drive
 status - Get Mirror Status message
 stats - Bot Usage Stats
 help - Get Detailed Help
-speedtest - Check Speed of the host
+speedtest - Check Speed of the host (Not working currently!)
 log - Bot Log [owner only]
 ```
 
