@@ -54,7 +54,7 @@ This project is heavily inspired from @out386 's telegram bot which is written i
 > ZIP, RAR, TAR, 7z, ISO, WIM, CAB, GZIP, BZIP2,
 > APM, ARJ, CHM, CPIO, CramFS, DEB, DMG, FAT,
 > HFS, LZH, LZMA, LZMA2, MBR, MSI, MSLZ, NSIS,
-> NTFS, RPM, SquashFS, UDF, VHD, XAR, Z.
+> NTFS, RPM, SquashFS, UDF, VHD, XAR, Z, TAR.XZ.
 - Copy files from someone's drive to your drive (using Autorclone)
 - Service account support in cloning and uploading
 - Download progress
