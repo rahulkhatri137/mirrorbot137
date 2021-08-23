@@ -566,7 +566,7 @@ class GoogleDriveHelper:
                 self.path.append(Telegraph(access_token=telegraph_token).create_page(
                                                         title = 'RK137_Mirror Bot Search',
                                                         author_name='RK137_Mirror Bot',
-                                                        author_url='https://github.com/rahulkhatri137/mirrorbot137RK137_',
+                                                        author_url='https://github.com/rahulkhatri137/mirrorbot137',
                                                         html_content=content
                                                         )['path'])
 
