@@ -133,6 +133,8 @@ def get_base_name(orig_path: str):
         return orig_path.replace(".vhd", "")
     elif orig_path.endswith(".xar"):
         return orig_path.replace(".xar", "")
+    elif orig_path.endswith(".tar.xz"):
+        return orig_path.replace(".tar.xz", "")
     else:
         raise NotSupportedExtractionArchive('File format not supported for extraction')
 
