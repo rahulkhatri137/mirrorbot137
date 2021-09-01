@@ -133,7 +133,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 def is_mega_link(url: str):
-    return "mega.nz" in url
+    return "mega.nz" in url or "mega.co.nz" in url
 
 
 def is_url(url: str):
