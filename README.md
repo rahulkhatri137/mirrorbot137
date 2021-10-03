@@ -1,4 +1,5 @@
 # RK137_Mirror Bot
+## Leech bot [branch](https://github.com/rahulkhatri137/mirrorbot137/tree/leech)
 Important - Read these points first
 - Original repo is https://github.com/lzzy12/python-aria-mirror-bot
 - I have collected some cool features from various repositories and merged them in one.
@@ -99,7 +100,7 @@ Deploying is pretty much straight forward and is divided into several steps as f
 
 - Clone this repo:
 ```
-git clone https://github.com/rahulkhatri137/mirrorbot137
+git clone -b master https://github.com/rahulkhatri137/mirrorbot137
 cd mirrorbot137
 ```
 
