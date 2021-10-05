@@ -143,6 +143,16 @@ try:
 except KeyError:
     MAX_TORRENT_SIZE = None
 try:
+    HEROKU_API_KEY = getConfig('HEROKU_API_KEY')
+except KeyError:
+    logging.warning('HEROKU API KEY not provided!')
+    HEROKU_API_KEY = None
+try:
+    HEROKU_APP_NAME = getConfig('HEROKU_APP_NAME')
+except KeyError:
+    logging.warning('HEROKU APP NAME not provided!')
+    HEROKU_APP_NAME = None
+try:
    ENABLE_FILESIZE_LIMIT = getConfig('ENABLE_FILESIZE_LIMIT')
    if ENABLE_FILESIZE_LIMIT.lower() == 'true':
        ENABLE_FILESIZE_LIMIT = True

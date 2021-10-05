@@ -8,11 +8,13 @@ js2py
 lxml
 megasdkrestclient
 psutil
+heroku3
 Pyrogram
 python-dotenv
 python-magic
 python-telegram-bot
 requests
+speedtest-cli
 telegraph
 tenacity
 TgCrypto

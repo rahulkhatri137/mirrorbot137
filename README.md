@@ -67,6 +67,8 @@ This project is heavily inspired from @out386 's telegram bot which is written i
 - Shortener support
 - No Duplicate mirrors
 - Extract password protected files (It's not hack, you have to enter password for extracting. LOL)
+- Speedtest
+- Heroku dyno usage
 
 - For extracting password protected files, using custom filename and download from password protected index links see these examples :-
 > https://telegra.ph/Magneto-Python-Aria---Custom-Filename-Examples-01-20
@@ -91,6 +93,7 @@ stats - Bot Usage Stats
 help - Get Detailed Help
 speedtest - Check Speed of the host (Not working currently!)
 log - Bot Log [owner only]
+usage - check heroku dyno usage [owner only]
 ```
 
 <details>

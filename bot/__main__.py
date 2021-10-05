@@ -12,7 +12,7 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import LOGGER, editMessage, sendLogFile, sendMessage
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.telegram_helper.filters import CustomFilters
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete # noqa
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, speedtest, usage # noqa
 
 from pyrogram import idle
 from bot import app
@@ -100,6 +100,7 @@ def bot_help(update, context):
 /{BotCommands.LogCommand}: Get a log file of the bot. Handy for getting crash reports
 
 /{BotCommands.SpeedCommand}: Check Internet Speed of the Host
+/{BotCommands.UsageCommand}: To see Heroku Dyno Stats (Owner only).
 '''
     sendMessage(help_string, context.bot, update)
 

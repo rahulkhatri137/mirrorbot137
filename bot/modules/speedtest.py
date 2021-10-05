@@ -1,13 +1,13 @@
+from speedtest import Speedtest
 from bot.helper.telegram_helper.filters import CustomFilters
-from bot import dispatcher, AUTHORIZED_CHATS
+from bot import dispatcher
 from bot.helper.telegram_helper.bot_commands import BotCommands
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
-from telegram.ext import CallbackContext, Filters, run_async, CommandHandler
+from telegram import ParseMode
+from bot.helper.telegram_helper.message_utils import *
+from telegram.ext import CommandHandler
 
-run_async
 def speedtest(update, context):
-    message = update.effective_message
-    ed_msg = message.reply_text("𝓡𝓾𝓷𝓷𝓲𝓷𝓰 𝓢𝓹𝓮𝓮𝓭 𝓣𝓮𝓼𝓽 . . . ")
+    speed = sendMessage("𝓡𝓾𝓷𝓷𝓲𝓷𝓰 𝓢𝓹𝓮𝓮𝓭 𝓣𝓮𝓼𝓽 . . . ", context.bot, update)
     test = Speedtest()
     test.get_best_server()
     test.download()
@@ -26,7 +26,7 @@ def speedtest(update, context):
 <b>📶 Ping:</b> <code>{result['ping']} ms</code>
 <b>🏬 ISP:</b> <code>{result['client']['isp']}</code>
 '''
-    ed_msg.delete()
+    speed.delete()
     try:
         update.effective_message.reply_photo(path, string_speed, parse_mode=ParseMode.HTML)
     except:
@@ -44,6 +44,6 @@ def speed_convert(size):
 
 
 SPEED_HANDLER = CommandHandler(BotCommands.SpeedCommand, speedtest, 
-                                                  filters=CustomFilters.authorized_chat | CustomFilters.authorized_user)
+                                                  filters=CustomFilters.owner_filter | CustomFilters.authorized_user, run_async=True)
 
 dispatcher.add_handler(SPEED_HANDLER)
