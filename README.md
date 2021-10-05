@@ -198,7 +198,7 @@ sudo docker run mirror-bot
 ```
 
 ## Deploying on Heroku
-
+## Heroku might suspend the bot so use [workflow](https://github.com/rahulkhatri137/mirrorbot-workflow) deploy.
 Fork this repo then upload **token.pickle** to your forks
 
 **NOTE**: If you didn't upload **token.pickle**, uploading will not work.
