@@ -17,7 +17,7 @@ def cancel_mirror(update, context):
         gid = args[1]
         dl = getDownloadByGid(gid)
         if not dl:
-            sendMessage(f"GID: <code>{gid}</code> not found.", context.bot, update)
+            sendMessage(f"⛔GID: <code>{gid}</code> not found.", context.bot, update)
             return
         with download_dict_lock:
             keys = list(download_dict.keys())
@@ -31,18 +31,18 @@ def cancel_mirror(update, context):
         if mirror_message is None or mirror_message.message_id not in keys:
             if BotCommands.MirrorCommand in update.message.text or \
                     BotCommands.TarMirrorCommand in update.message.text:
-                msg = "Mirror already have been cancelled"
+                msg = "🚫Mirror already have been cancelled"
                 sendMessage(msg, context.bot, update)
                 return
             else:
-                msg = f"Please reply to the <code>/{BotCommands.MirrorCommand}</code> message which was used to start the download or <code>/{BotCommands.CancelMirror} GID</code> to cancel it!"
+                msg = f"💠Please reply to the <code>/{BotCommands.MirrorCommand}</code> message which was used to start the download or <code>/{BotCommands.CancelMirror} GID</code> to cancel it!"
                 sendMessage(msg, context.bot, update)
                 return
     if dl.status() == "Uploading":
-        sendMessage("Upload in Progress, Don't Cancel it.", context.bot, update)
+        sendMessage("🚫Upload in Progress, Don't Cancel it.", context.bot, update)
         return
     elif dl.status() == "Archiving":
-        sendMessage("Archival in Progress, Don't Cancel it.", context.bot, update)
+        sendMessage("🚫Archival in Progress, Don't Cancel it.", context.bot, update)
         return
     else:
         dl.download().cancel_download()
@@ -59,7 +59,7 @@ def cancel_all(update, context):
                 dlDetails.download().cancel_download()
                 count += 1
     delete_all_messages()
-    sendMessage(f'Cancelled {count} downloads!', context.bot, update)
+    sendMessage(f'🚫Cancelled {count} downloads!', context.bot, update)
 
 
 cancel_mirror_handler = CommandHandler(BotCommands.CancelMirror, cancel_mirror,

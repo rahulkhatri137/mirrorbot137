@@ -4,11 +4,11 @@ beautifulsoup4
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+heroku3
 js2py
 lxml
 megasdkrestclient
 psutil
-heroku3
 Pyrogram
 python-dotenv
 python-magic
