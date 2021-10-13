@@ -6,6 +6,9 @@ import pathlib
 import magic
 import tarfile
 from .exceptions import NotSupportedExtractionArchive
+from PIL import Image
+from hachoir.parser import createParser
+from hachoir.metadata import extractMetadata
 
 
 def clean_download(path: str):
@@ -144,3 +147,22 @@ def get_mime_type(file_path):
     mime_type = mime.from_file(file_path)
     mime_type = mime_type if mime_type else "text/plain"
     return mime_type
+
+def take_ss(video_file):
+    des_dir = 'Thumbnails'
+    if not os.path.exists(des_dir):
+        os.mkdir(des_dir)
+    des_dir = os.path.join(des_dir, f"{time.time()}.jpg")
+    metadata = extractMetadata(createParser(video_file))
+    duration = metadata.get('duration').seconds if metadata.has("duration") else 5
+    duration = int(duration) / 2
+    subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-ss", str(duration),
+                    "-i", video_file, "-vframes", "1", des_dir])
+    if not os.path.lexists(des_dir):
+        return None
+
+    Image.open(des_dir).convert("RGB").save(des_dir)
+    img = Image.open(des_dir)
+    img.resize((480, 320))
+    img.save(des_dir, "JPEG")
+    return des_dir

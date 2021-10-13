@@ -12,7 +12,7 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import LOGGER, editMessage, sendLogFile, sendMessage
 from .helper.ext_utils.bot_utils import get_readable_file_size, get_readable_time
 from .helper.telegram_helper.filters import CustomFilters
-from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, speedtest, usage # noqa
+from .modules import authorize, list, cancel_mirror, mirror_status, mirror, clone, watch, delete, leech_settings, speedtest, usage # noqa
 
 from pyrogram import idle
 from bot import app
@@ -83,6 +83,16 @@ def bot_help(update, context):
 
 /{BotCommands.TarMirrorCommand} [download_url][magnet_link]: start mirroring and upload the archived (.tar) version of the download
 
+/{BotCommands.LeechCommand} [download_url][magnet_link]: Start mirroring the link to google drive
+
+/{BotCommands.UnzipLeechCommand} [download_url][magnet_link] : starts mirroring and if downloaded file is any archive , extracts it to google drive
+
+/{BotCommands.TarLeechCommand} [download_url][magnet_link]: start mirroring and upload the archived (.tar) version of the download
+
+/{BotCommands.LeechSetCommand}: Leech Settings 
+
+/{BotCommands.SetThumbCommand}: Reply photo to set it as Thumbnail
+
 /{BotCommands.WatchCommand} [youtube-dl supported link]: Mirror through youtube-dl. Click /{BotCommands.WatchCommand} for more help.
 
 /{BotCommands.TarWatchCommand} [youtube-dl supported link]: Mirror through youtube-dl and tar before uploading
@@ -97,13 +107,37 @@ def bot_help(update, context):
 
 /{BotCommands.AuthorizeCommand}: Authorize a chat or a user to use the bot (Can only be invoked by owner of the bot)
 
+/{BotCommands.UnAuthorizeCommand}: UnAuthorize a chat or a user to use the bot (Can only be invoked by owner of the bot)
+
 /{BotCommands.LogCommand}: Get a log file of the bot. Handy for getting crash reports
 
 /{BotCommands.SpeedCommand}: Check Internet Speed of the Host
-/{BotCommands.UsageCommand}: To see Heroku Dyno Stats (Owner only).
+/{BotCommands.UsageCommand}: To see Heroku Dyno Stats (Owner only)
 '''
     sendMessage(help_string, context.bot, update)
 
+botcmds = [
+    (f"{BotCommands.HelpCommand}", "Get detailed help"),
+    (f"{BotCommands.MirrorCommand}", "Start mirroring"),
+    (f"{BotCommands.TarMirrorCommand}", "Start mirroring and upload as .tar"),
+    (f"{BotCommands.UnzipMirrorCommand}", "Extract files"),
+    (f"{BotCommands.CloneCommand}", "Copy file/folder from GDrive"),
+    (f"{BotCommands.deleteCommand}", "Delete file from GDrive [owner only]"),
+    (f"{BotCommands.WatchCommand}", "Mirror Youtube-dl support link"),
+    (f"{BotCommands.TarWatchCommand}", "Mirror Youtube playlist link as .tar"),
+    (f"{BotCommands.ZipWatchCommand}", "Mirror Youtube playlist link as .zip"),
+    (f"{BotCommands.CancelMirror}", "Cancel a task"),
+    (f"{BotCommands.CancelAllCommand}", "Cancel all tasks [owner only]"),
+    (f"{BotCommands.StatusCommand}", "Get mirror status"),
+    (f"{BotCommands.StatsCommand}", "Bot usage stats"),
+    (f"{BotCommands.PingCommand}", "Ping the bot"),
+    (f"{BotCommands.RestartCommand}", "Restart the bot [owner only]"),
+    (f"{BotCommands.LogCommand}", "Get the bot log [owner only]"),
+    (f"{BotCommands.LeechCommand}", "Start leeching"),
+    (f"{BotCommands.LeechSetCommand}", "Leech Settings"),
+    (f"{BotCommands.TarLeechCommand}", "Start leeching and upload as .tar"),
+    (f"{BotCommands.UnZipLeechCommand}", "Start leeching and upload as .zip"),
+]
 
 def main():
     fs_utils.start_cleanup()
@@ -113,7 +147,7 @@ def main():
             chat_id, msg_id = map(int, f)
         bot.edit_message_text("Restarted successfully!", chat_id, msg_id)
         os.remove(".restartmsg")
-
+    bot.set_my_commands(botcmds)
     start_handler = CommandHandler(BotCommands.StartCommand, start,
                                    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
     ping_handler = CommandHandler(BotCommands.PingCommand, ping,

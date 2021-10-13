@@ -1,19 +1,11 @@
 # RK137_Mirror Bot
-## Leech bot [branch](https://github.com/rahulkhatri137/mirrorbot137/tree/leech)
+
 Important - Read these points first
 - Original repo is https://github.com/lzzy12/python-aria-mirror-bot
 - I have collected some cool features from various repositories and merged them in one.
 - So, credits goes to original repo holder, not to me. I have just collected them.
 - This (or any custom) repo is not supported in official bot support group.
 - So if you have any issue then check first that issue is in official repo or not, You are only allowed to report that issue in bot support group if that issue is also present in official repo.
-
-## Features Coming soon....
-- ~Custom Filename~ Added
-```
-Only for url, telegram files and ytdl.
-Not for mega links and magnet/torrents
-```
-- Rename Drive files
 
 Let's have some chit chat here - [@Magneto_chit_chat](https://t.me/magneto_chit_chat)
 Note :- it is not a Bot Support group. It's only for discussing rubbish things bcoz i want your help to learn coding .
@@ -35,7 +27,6 @@ Note :- it is not a Bot Support group. It's only for discussing rubbish things b
 2. Update tracker list dynamically
 3. Fix SSL handsake error
 ```
-
 
 # What is this repo about?
 This is a telegram bot writen in python for mirroring files on the internet to our beloved Google Drive.
@@ -69,6 +60,7 @@ This project is heavily inspired from @out386 's telegram bot which is written i
 - Extract password protected files (It's not hack, you have to enter password for extracting. LOL)
 - Speedtest
 - Heroku dyno usage
+- Leech
 
 - For extracting password protected files, using custom filename and download from password protected index links see these examples :-
 > https://telegra.ph/Magneto-Python-Aria---Custom-Filename-Examples-01-20
@@ -93,7 +85,10 @@ stats - Bot Usage Stats
 help - Get Detailed Help
 speedtest - Check Speed of the host (Not working currently!)
 log - Bot Log [owner only]
-usage - check heroku dyno usage [owner only]
+usage - Check heroku dyno usage [owner only]
+leech - Start leeching
+tarleech - Leech as tar (zipped) file
+unzipleech - Leech & Extract files
 ```
 
 <details>
@@ -146,6 +141,7 @@ Fill up all of the fields. Meaning of each fields are discussed below:
 - **MEGA_USERNAME**: Your email id you used to sign up on mega.nz for using premium accounts (Leave th)
 - **MEGA_PASSWORD**: Your password for your mega.nz account
 - **BLOCK_MEGA_LINKS**: (Optional field) If you want to remove mega.nz mirror support (bcoz it's too much buggy and unstable), set it to `True`.
+- **AS_DOCUMENT**: Set to true to upload all files as document on telegram
 - **SHORTENER**: (Optional field) if you want to use shortener in Gdrive and index link, fill shotener url here. Examples :-
 
 > exe.io
@@ -196,13 +192,16 @@ sudo docker build . -t mirror-bot
 ```
 sudo docker run mirror-bot
 ```
+## Deploy on git actions [workflow](https://github.com/rahulkhatri137/mirrorbot-workflow)
 
 ## Deploying on Heroku
-## Heroku might suspend the bot so use [workflow](https://github.com/rahulkhatri137/mirrorbot-workflow) deploy.
 Fork this repo then upload **token.pickle** to your forks
-
 **NOTE**: If you didn't upload **token.pickle**, uploading will not work.
+
 <p><a href="https://heroku.com/deploy"> <img src="https://img.shields.io/badge/Deploy%20To%20Heroku-blueviolet?style=for-the-badge&logo=heroku" width="200""/></a></p>
+
+- Deploying on Heroku with Github Workflow
+<p><a href="https://telegra.ph/Heroku-Deployment-10-04"> <img src="https://img.shields.io/badge/Deploy%20Guide-blueviolet?style=for-the-badge&logo=heroku" width="170""/></a></p>
 
 <details>
     <summary># Deploying on Heroku using heroku-cli</summary>

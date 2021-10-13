@@ -67,6 +67,8 @@ status_reply_dict = {}
 download_dict = {}
 # Stores list of users and chats the bot is authorized to use in
 AUTHORIZED_CHATS = set()
+AS_DOC_USERS = set()
+AS_MEDIA_USERS = set()
 if os.path.exists('authorized_chats.txt'):
     with open('authorized_chats.txt', 'r+') as f:
         lines = f.readlines()
@@ -215,6 +217,12 @@ try:
         USE_SERVICE_ACCOUNTS = False
 except KeyError:
     USE_SERVICE_ACCOUNTS = False
+
+try:
+    AS_DOCUMENT = getConfig('AS_DOCUMENT')
+    AS_DOCUMENT = AS_DOCUMENT.lower() == 'true'
+except KeyError:
+    AS_DOCUMENT = False
 
 try:
     BLOCK_MEGA_LINKS = getConfig('BLOCK_MEGA_LINKS')

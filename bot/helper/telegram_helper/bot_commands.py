@@ -22,5 +22,10 @@ class _BotCommands:
         self.deleteCommand = 'del'
         self.UsageCommand = 'usage'
         self.SpeedCommand = 'speedtest'
+        self.LeechSetCommand = 'leechset'
+        self.SetThumbCommand = 'setthumb'
+        self.LeechCommand = 'leech'
+        self.TarLeechCommand = 'tarleech'
+        self.UnzipLeechCommand = 'unzipleech'
 
 BotCommands = _BotCommands()
