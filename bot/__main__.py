@@ -81,13 +81,13 @@ def bot_help(update, context):
 
 /{BotCommands.UnzipMirrorCommand} [download_url][magnet_link] : starts mirroring and if downloaded file is any archive , extracts it to google drive
 
-/{BotCommands.TarMirrorCommand} [download_url][magnet_link]: start mirroring and upload the archived (.tar) version of the download
+/{BotCommands.ZipMirrorCommand} [download_url][magnet_link]: start mirroring and upload the archived (.zip) version of the download
 
-/{BotCommands.LeechCommand} [download_url][magnet_link]: Start mirroring the link to google drive
+/{BotCommands.LeechCommand} [download_url][magnet_link]: Start mirroring the link & upload to telegram
 
 /{BotCommands.UnzipLeechCommand} [download_url][magnet_link] : starts mirroring and if downloaded file is any archive , extracts it to google drive
 
-/{BotCommands.TarLeechCommand} [download_url][magnet_link]: start mirroring and upload the archived (.tar) version of the download
+/{BotCommands.ZipLeechCommand} [download_url][magnet_link]: start mirroring and upload the archived (.zip) version of the download
 
 /{BotCommands.LeechSetCommand}: Leech Settings 
 
@@ -95,7 +95,7 @@ def bot_help(update, context):
 
 /{BotCommands.WatchCommand} [youtube-dl supported link]: Mirror through youtube-dl. Click /{BotCommands.WatchCommand} for more help.
 
-/{BotCommands.TarWatchCommand} [youtube-dl supported link]: Mirror through youtube-dl and tar before uploading
+/{BotCommands.ZipWatchCommand} [youtube-dl supported link]: Mirror through youtube-dl and zip before uploading
 
 /{BotCommands.CancelMirror} : Reply to the message by which the download was initiated and that download will be cancelled
 
@@ -119,12 +119,11 @@ def bot_help(update, context):
 botcmds = [
     (f"{BotCommands.HelpCommand}", "Get detailed help"),
     (f"{BotCommands.MirrorCommand}", "Start mirroring"),
-    (f"{BotCommands.TarMirrorCommand}", "Start mirroring and upload as .tar"),
+    (f"{BotCommands.ZipMirrorCommand}", "Start mirroring and upload as .zip"),
     (f"{BotCommands.UnzipMirrorCommand}", "Extract files"),
     (f"{BotCommands.CloneCommand}", "Copy file/folder from GDrive"),
     (f"{BotCommands.deleteCommand}", "Delete file from GDrive [owner only]"),
     (f"{BotCommands.WatchCommand}", "Mirror Youtube-dl support link"),
-    (f"{BotCommands.TarWatchCommand}", "Mirror Youtube playlist link as .tar"),
     (f"{BotCommands.ZipWatchCommand}", "Mirror Youtube playlist link as .zip"),
     (f"{BotCommands.CancelMirror}", "Cancel a task"),
     (f"{BotCommands.CancelAllCommand}", "Cancel all tasks [owner only]"),
@@ -135,7 +134,7 @@ botcmds = [
     (f"{BotCommands.LogCommand}", "Get the bot log [owner only]"),
     (f"{BotCommands.LeechCommand}", "Start leeching"),
     (f"{BotCommands.LeechSetCommand}", "Leech Settings"),
-    (f"{BotCommands.TarLeechCommand}", "Start leeching and upload as .tar"),
+    (f"{BotCommands.ZipLeechCommand}", "Start leeching and upload as .Zip"),
     (f"{BotCommands.UnZipLeechCommand}", "Start leeching and upload as .zip"),
 ]
 

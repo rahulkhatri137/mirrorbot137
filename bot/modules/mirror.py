@@ -12,7 +12,7 @@ from bot.helper.mirror_utils.download_utils.direct_link_generator import direct_
 from bot.helper.mirror_utils.download_utils.telegram_downloader import TelegramDownloadHelper
 from bot.helper.mirror_utils.status_utils import listeners
 from bot.helper.mirror_utils.status_utils.extract_status import ExtractStatus
-from bot.helper.mirror_utils.status_utils.tar_status import TarStatus
+from bot.helper.mirror_utils.status_utils.zip_status import ZipStatus
 from bot.helper.mirror_utils.status_utils.upload_status import UploadStatus
 from bot.helper.mirror_utils.status_utils.tg_upload_status import TgUploadStatus
 from bot.helper.mirror_utils.upload_utils import gdriveTools, pyrogramEngine
@@ -33,9 +33,9 @@ ariaDlManager.start_listener()
 
 
 class MirrorListener(listeners.MirrorListeners):
-    def __init__(self, bot, update, pswd, isTar=False, tag=None, extract=False, isLeech=False):
+    def __init__(self, bot, update, pswd, isZip=False, tag=None, extract=False, isLeech=False):
         super().__init__(bot, update)
-        self.isTar = isTar
+        self.isZip = isZip
         self.tag = tag
         self.extract = extract
         self.isLeech = isLeech
@@ -66,12 +66,12 @@ class MirrorListener(listeners.MirrorListeners):
             if name is None: # when pyrogram's media.file_name is of NoneType
                 name = os.listdir(f'{DOWNLOAD_DIR}{self.uid}')[0]
             m_path = f'{DOWNLOAD_DIR}{self.uid}/{name}'
-        if self.isTar:
+        if self.isZip:
             download.is_archiving = True
             try:
                 with download_dict_lock:
-                    download_dict[self.uid] = TarStatus(name, m_path, size)
-                path = fs_utils.tar(m_path)
+                    download_dict[self.uid] = ZipStatus(name, m_path, size)
+                path = fs_utils.zip(name, m_path)
             except FileNotFoundError:
                 LOGGER.info('File to archive not found!')
                 self.onUploadError('Internal error occurred!!')
@@ -260,7 +260,7 @@ class MirrorListener(listeners.MirrorListeners):
             update_all_messages()
 
 
-def _mirror(bot, update, isTar=False, extract=False, isLeech=False):
+def _mirror(bot, update, isZip=False, extract=False, isLeech=False):
     mesg = update.message.text.split('\n')
     message_args = mesg[0].split(' ')
     name_args = mesg[0].split('|')
@@ -306,7 +306,7 @@ def _mirror(bot, update, isTar=False, extract=False, isLeech=False):
         if not bot_utils.is_url(link) and not bot_utils.is_magnet(link) or len(link) == 0:
             if file is not None:
                 if file.mime_type != "application/x-bittorrent":
-                    listener = MirrorListener(bot, update, pswd, isTar, tag, extract, isLeech=isLeech)
+                    listener = MirrorListener(bot, update, pswd, isZip, tag, extract, isLeech=isLeech)
                     tg_downloader = TelegramDownloadHelper(listener)
                     tg_downloader.add_download(reply_to, f'{DOWNLOAD_DIR}{listener.uid}/', name)
                     sendStatusMessage(update, bot)
@@ -325,7 +325,7 @@ def _mirror(bot, update, isTar=False, extract=False, isLeech=False):
         link = direct_link_generator(link)
     except DirectDownloadLinkException as e:
         LOGGER.info(f'{link}: {e}')
-    listener = MirrorListener(bot, update, pswd, isTar, tag, extract, isLeech)
+    listener = MirrorListener(bot, update, pswd, isZip, tag, extract, isLeech)
 
     if bot_utils.is_mega_link(link) and MEGA_KEY is not None and not BLOCK_MEGA_LINKS:
         mega_dl = MegaDownloader(listener)
@@ -334,7 +334,7 @@ def _mirror(bot, update, isTar=False, extract=False, isLeech=False):
     elif bot_utils.is_mega_link(link) and BLOCK_MEGA_LINKS:
         sendMessage("🚫Mega links are blocked. Dont try to mirror mega links.", bot, update)
     elif bot_utils.is_gdrive_link(link):
-        if not isTar and not extract and not isLeech:
+        if not isZip and not extract and not isLeech:
             sendMessage(f"Use /{BotCommands.CloneCommand} to clone Google Drive file/folder.", bot, update)
     else:
         ariaDlManager.add_download(link, f'{DOWNLOAD_DIR}{listener.uid}/', listener, name)
@@ -347,7 +347,7 @@ def mirror(update, context):
     _mirror(context.bot, update)
 
 
-def tar_mirror(update, context):
+def zip_mirror(update, context):
     _mirror(context.bot, update, True)
 
 
@@ -357,7 +357,7 @@ def unzip_mirror(update, context):
 def leech(update, context):
     _mirror(context.bot, update, isLeech=True)
 
-def tar_leech(update, context):
+def zip_leech(update, context):
     _mirror(context.bot, update, True, isLeech=True)
 
 def unzip_leech(update, context):
@@ -366,19 +366,19 @@ def unzip_leech(update, context):
 
 mirror_handler = CommandHandler(BotCommands.MirrorCommand, mirror,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-tar_mirror_handler = CommandHandler(BotCommands.TarMirrorCommand, tar_mirror,
+zip_mirror_handler = CommandHandler(BotCommands.ZipMirrorCommand, zip_mirror,
                                     filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 unzip_mirror_handler = CommandHandler(BotCommands.UnzipMirrorCommand, unzip_mirror,
                                       filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 leech_handler = CommandHandler(BotCommands.LeechCommand, leech,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
-tar_leech_handler = CommandHandler(BotCommands.TarLeechCommand, tar_leech,
+zip_leech_handler = CommandHandler(BotCommands.ZipLeechCommand, zip_leech,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 unzip_leech_handler = CommandHandler(BotCommands.UnzipLeechCommand, unzip_leech,
                                 filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
 dispatcher.add_handler(mirror_handler)
-dispatcher.add_handler(tar_mirror_handler)
+dispatcher.add_handler(zip_mirror_handler)
 dispatcher.add_handler(unzip_mirror_handler)
 dispatcher.add_handler(leech_handler)
-dispatcher.add_handler(tar_leech_handler)
+dispatcher.add_handler(zip_leech_handler)
 dispatcher.add_handler(unzip_leech_handler)

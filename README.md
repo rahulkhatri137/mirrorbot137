@@ -71,11 +71,11 @@ This project is heavily inspired from @out386 's telegram bot which is written i
 
 ```
 mirror - Start Mirroring
-tarmirror - Upload tar (zipped) file
+zipmirror - Upload zip (zipped) file
 unzipmirror - Extract files
 clone - copy folder to drive
 watch - mirror YT-DL support link
-tarwatch - mirror youtube playlist link as tar
+zipwatch - mirror youtube playlist link as zip
 cancel - Cancel a task
 cancelall - Cancel all tasks
 del - Delete file from Drive
@@ -87,7 +87,7 @@ speedtest - Check Speed of the host (Not working currently!)
 log - Bot Log [owner only]
 usage - Check heroku dyno usage [owner only]
 leech - Start leeching
-tarleech - Leech as tar (zipped) file
+zipleech - Leech as zip (zipped) file
 unzipleech - Leech & Extract files
 ```
 
