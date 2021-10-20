@@ -115,7 +115,7 @@ def bot_help(update, context):
 /{BotCommands.UsageCommand}: To see Heroku Dyno Stats (Owner only)
 '''
     sendMessage(help_string, context.bot, update)
-
+"""
 botcmds = [
     (f"{BotCommands.HelpCommand}", "Get detailed help"),
     (f"{BotCommands.MirrorCommand}", "Start mirroring"),
@@ -137,7 +137,7 @@ botcmds = [
     (f"{BotCommands.ZipLeechCommand}", "Start leeching and upload as .Zip"),
     (f"{BotCommands.UnZipLeechCommand}", "Start leeching and upload as .zip"),
 ]
-
+"""
 def main():
     fs_utils.start_cleanup()
     # Check if the bot is restarting
