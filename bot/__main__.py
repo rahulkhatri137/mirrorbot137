@@ -85,7 +85,7 @@ def bot_help(update, context):
 
 /{BotCommands.LeechCommand} [download_url][magnet_link]: Start mirroring the link & upload to telegram
 
-/{BotCommands.UnzipLeechCommand} [download_url][magnet_link] : starts mirroring and if downloaded file is any archive , extracts it to google drive
+/{BotCommands.UnzipLeechCommand} [download_url][magnet_link] : starts mirroring and if downloaded file is any archive , extracts it and upload to telegram
 
 /{BotCommands.ZipLeechCommand} [download_url][magnet_link]: start mirroring and upload the archived (.zip) version of the download
 
@@ -135,7 +135,7 @@ botcmds = [
     (f"{BotCommands.LeechCommand}", "Start leeching"),
     (f"{BotCommands.LeechSetCommand}", "Leech Settings"),
     (f"{BotCommands.ZipLeechCommand}", "Start leeching and upload as .Zip"),
-    (f"{BotCommands.UnZipLeechCommand}", "Start leeching and upload as .zip"),
+    (f"{BotCommands.UnzipLeechCommand}", "Extract the archive and leech to telegram"),
 ]
 
 def main():
