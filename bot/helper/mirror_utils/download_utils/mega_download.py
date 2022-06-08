@@ -1,9 +1,12 @@
 import threading
-from bot import LOGGER, download_dict, download_dict_lock
-from ..status_utils.mega_status import MegaDownloadStatus
-from megasdkrestclient import MegaSdkRestClient, constants
-from bot.helper.ext_utils.bot_utils import setInterval
 from pathlib import Path
+
+from megasdkrestclient import MegaSdkRestClient, constants
+
+from bot import LOGGER, download_dict, download_dict_lock
+from bot.helper.ext_utils.bot_utils import setInterval
+
+from ..status_utils.mega_status import MegaDownloadStatus
 
 
 class MegaDownloader:
@@ -13,9 +16,9 @@ class MegaDownloader:
         super().__init__()
         self.__listener = listener
         self.__name = ""
-        self.__gid = ''
+        self.__gid = ""
         self.__resource_lock = threading.Lock()
-        self.__mega_client = MegaSdkRestClient('http://localhost:6090')
+        self.__mega_client = MegaSdkRestClient("http://localhost:6090")
         self.__periodic = None
         self.__downloaded_bytes = 0
         self.__progress = 0
@@ -49,12 +52,14 @@ class MegaDownloader:
     @property
     def download_speed(self):
         if self.gid is not None:
-            return self.__mega_client.getDownloadInfo(self.gid)['speed']
+            return self.__mega_client.getDownloadInfo(self.gid)["speed"]
 
     def __onDownloadStart(self, name, size, gid):
         self.__periodic = setInterval(self.POLLING_INTERVAL, self.__onInterval)
         with download_dict_lock:
-            download_dict[self.__listener.uid] = MegaDownloadStatus(self, self.__listener)
+            download_dict[self.__listener.uid] = MegaDownloadStatus(
+                self, self.__listener
+            )
         with self.__resource_lock:
             self.__name = name
             self.__size = size
@@ -63,20 +68,26 @@ class MegaDownloader:
 
     def __onInterval(self):
         dlInfo = self.__mega_client.getDownloadInfo(self.gid)
-        if (dlInfo['state'] == constants.State.TYPE_STATE_COMPLETED or dlInfo[
-            'state'] == constants.State.TYPE_STATE_CANCELED or dlInfo[
-                'state'] == constants.State.TYPE_STATE_FAILED) and self.__periodic is not None:
+        if (
+            dlInfo["state"]
+            in [
+                constants.State.TYPE_STATE_COMPLETED,
+                constants.State.TYPE_STATE_CANCELED,
+                constants.State.TYPE_STATE_FAILED,
+            ]
+            and self.__periodic is not None
+        ):
             self.__periodic.cancel()
-        if dlInfo['state'] == constants.State.TYPE_STATE_COMPLETED:
+        if dlInfo["state"] == constants.State.TYPE_STATE_COMPLETED:
             self.__onDownloadComplete()
             return
-        if dlInfo['state'] == constants.State.TYPE_STATE_CANCELED:
-            self.__onDownloadError('Cancelled by user')
+        if dlInfo["state"] == constants.State.TYPE_STATE_CANCELED:
+            self.__onDownloadError("Cancelled by user")
             return
-        if dlInfo['state'] == constants.State.TYPE_STATE_FAILED:
-            self.__onDownloadError(dlInfo['error_string'])
+        if dlInfo["state"] == constants.State.TYPE_STATE_FAILED:
+            self.__onDownloadError(dlInfo["error_string"])
             return
-        self.__onDownloadProgress(dlInfo['completed_length'], dlInfo['total_length'])
+        self.__onDownloadProgress(dlInfo["completed_length"], dlInfo["total_length"])
 
     def __onDownloadProgress(self, current, total):
         with self.__resource_lock:
@@ -95,13 +106,13 @@ class MegaDownloader:
     def add_download(self, link, path):
         Path(path).mkdir(parents=True, exist_ok=True)
         dl = self.__mega_client.addDl(link, path)
-        gid = dl['gid']
+        gid = dl["gid"]
         info = self.__mega_client.getDownloadInfo(gid)
-        file_name = info['name']
-        file_size = info['total_length']
+        file_name = info["name"]
+        file_size = info["total_length"]
         self.__onDownloadStart(file_name, file_size, gid)
-        LOGGER.info(f'Started mega download with gid: {gid}')
+        LOGGER.info(f"Started mega download with gid: {gid}")
 
     def cancel_download(self):
-        LOGGER.info(f'Cancelling download on user request: {self.gid}')
+        LOGGER.info(f"Cancelling download on user request: {self.gid}")
         self.__mega_client.cancelDl(self.gid)

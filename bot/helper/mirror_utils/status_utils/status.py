@@ -2,7 +2,6 @@
 
 
 class Status:
-
     def progress(self):
         """
         Calculates the progress of the mirror (upload or download)
@@ -32,7 +31,7 @@ class Status:
 
     def status(self):
         """:return String describing what is the object of this class will be tracking (upload/download/something
-        else) """
+        else)"""
         raise NotImplementedError
 
     def processed_bytes(self):

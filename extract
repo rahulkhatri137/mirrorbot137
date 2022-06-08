@@ -29,17 +29,17 @@ extract() {
     tar xf "$arg" --one-top-level
     local code=$?
     ;;
-  *.tar.xz)
-    a_dir=$(expr "$arg" : '\(.*\).tar.xz')
-    7z x "$arg" -o"$a_dir"
-    local code=$?
-    ;;
   *.tbz2)
     (tar xjf "$arg" --one-top-level)
     local code=$?
     ;;
   *.tgz)
     tar xzf "$arg" --one-top-level
+    local code=$?
+    ;;
+  *.tar.xz)
+    a_dir=$(expr "$arg" : '\(.*\).tar.xz')
+    7z x "$arg" -o"$a_dir"
     local code=$?
     ;;
   *.zip)

@@ -54,8 +54,9 @@ class TgUploadStatus(Status):
         except ZeroDivisionError:
             return '-'
 
-    def gid(self) -> str:
-        return self.__gid
 
     def download(self):
         return self.obj
+
+    def gid(self) -> str:
+        return self.__gid 

@@ -26,3 +26,12 @@ repos:
             "--remove-all-unused-imports",
             "--expand-star-imports",
           ]
+  - repo: https://github.com/pycqa/isort
+    rev: 5.9.3
+    hooks:
+      - id: isort
+        args: ["--profile", "black", "--filter-files"]
+  - repo: "https://github.com/psf/black"
+    rev: 21.9b0
+    hooks:
+      - id: black
