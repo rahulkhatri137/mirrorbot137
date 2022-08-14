@@ -69,9 +69,9 @@ def start(update, context):
 This bot is designed by @rahulkhatri137 to mirror your links to Google Drive and upload files to Telegram!
 Type /{BotCommands.HelpCommand} to get a list of available commands
 '''
-        sendMarkup(start_string, context.bot, update)
+        sendMessage(start_string, context.bot, update)
     else:
-        sendMarkup(
+        sendMessage(
             'Oops! not a Authorized user.',
             context.bot,
             update,
