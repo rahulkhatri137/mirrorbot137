@@ -291,12 +291,14 @@ different hosts can be added each separated by a new line.
 </details>
 
 
-## Deploy on git actions [workflow](https://github.com/rahulkhatri137/mirrorbot-workflow)
+## Deploy on [GitHub actions](https://github.com/rahulkhatri137/mirrorbot-workflow)
+* [Deploy Video Tutorial](https://youtu.be/U9uxTKsfvaE)
+
 
 ## Deploying on Heroku
 - Token Pickle URL is must for deploying on Heorku!
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=https://github.com/rahulkhatri137/mirrorbot137-deployer&template=https://github.com/rahulkhatri137/mirrorbot137-deployer)
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=https://github.com/rahulkhatri137/mirrorbot137-deployer&template=https://github.com/rahulkhatri137/mirrorbot137-deployer)
 
 
 - Deploying on Heroku with Github Workflow
