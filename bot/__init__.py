@@ -200,12 +200,10 @@ except:
     pass
 
 try:
-    PHPSESSID = getConfig('PHPSESSID')
     CRYPT = getConfig('CRYPT')
-    if len(PHPSESSID) == 0 or len(CRYPT) == 0:
+    if len(CRYPT) == 0:
         raise KeyError
 except KeyError:
-    PHPSESSID = None
     CRYPT = None
 
 try:
