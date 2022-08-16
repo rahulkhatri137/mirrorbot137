@@ -289,6 +289,33 @@ different hosts can be added each separated by a new line.
 
 </details>
 
+## Commands to set via [@BotFather](https://t.me/BotFather)
+~~~
+mirror - Mirror
+zipmirror - Mirror and upload as zip
+unzipmirror - Mirror and extract files
+leech - Leech to Telegram
+zipleech - Leech and upload as zip
+unzipleech - Leech and extract files
+clone - Copy file/folder to Drive
+count - Count file/folder of Drive
+watch - Mirror yt-dlp supported link
+zipwatch - Mirror yt-dlp supported link as zip
+leechwatch - Leech through yt-dlp supported link
+leechzipwatch - Leech yt-dlp support link as zip
+leechset - Leech settings
+setthumb - Set thumbnail
+status - Get Mirror Status message
+list - Search files in Drive
+cancel - Cancel a task
+cancelall - Cancel all tasks
+del - Delete file/folder from Drive{owner}
+log - Get the Bot Log{owner}
+restart - Restart the Bot{sudo}
+stats - Bot Usage Stats
+ping - Ping the Bot
+help - All cmds with description
+~~~
 
 ## Deploy on [GitHub actions](https://github.com/rahulkhatri137/mirrorbot-workflow)
 * [Deploy Video Tutorial](https://youtu.be/U9uxTKsfvaE)
