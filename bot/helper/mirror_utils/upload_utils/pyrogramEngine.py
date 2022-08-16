@@ -53,7 +53,7 @@ class TgUploader:
                 self.upload_file(up_path, file, dirpath)
                 if self.is_cancelled:
                     return
-                msgs_dict[file] = self.sent_msg.message_id
+                msgs_dict[file] = self.sent_msg.id
                 self.last_uploaded = 0
         if len(msgs_dict) <= self.corrupted:
             return self.__listener.onUploadError('Files Corrupted. Check logs')

@@ -159,7 +159,6 @@ Fill up rest of the fields. Meaning of each field is discussed below:
   - Supported URL Shorteners:
   >exe.io gplinks.in shrinkme.io urlshortx.com shortzon.com
 - `CRYPT`: Cookie for gdtot google drive link generator.
-- `PHPSESSID`: Cookie for gdtot google drive link generator.
 - `RECURSIVE_SEARCH`: T/F And Fill drive_folder File Using Driveid.py Script.
 
   - `BUTTON_THREE_NAME`:
@@ -199,25 +198,25 @@ To Clone or Leech gdtot link follow these steps:
    ```
    javascript:(function () {
      const input = document.createElement('input');
-     input.value = JSON.stringify({url : window.location.href, cookie : document.cookie});
+     COOKIE = JSON.parse(JSON.stringify({cookie : document.cookie}));
+     input.value = COOKIE['cookie'].split('crypt=')[1];
      document.body.appendChild(input);
      input.focus();
      input.select();
      var result = document.execCommand('copy');
      document.body.removeChild(input);
      if(result)
-       alert('Cookie copied to clipboard');
+       alert('Crypt copied to clipboard');
      else
-       prompt('Failed to copy cookie. Manually copy below cookie\n\n', input.value);
+       prompt('Failed to copy Crypt. Manually copy below Crypt\n\n', input.value);
    })();
    ```
    - After pressing enter your browser will prompt a alert.
-3. Now you'll get this type of data in your clipboard
+3. Now you'll get CRYPT in your clipboard
    ```
-   {"url":"https://new.gdtot.org/","cookie":"PHPSESSID=k2xxxxxxxxxxxxxxxxxxxxj63o; crypt=NGxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxWdSVT0%3D"}
-
+   NGxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxWdSVT0%3D
    ```
-4. From this you have to paste value of PHPSESSID and crypt in config.env file.
+4. From this you have to paste value of CRYPT in config.env file.
 
 ## Generate Database
 
