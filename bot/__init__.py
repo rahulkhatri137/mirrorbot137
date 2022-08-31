@@ -257,7 +257,18 @@ if DB_URI is not None:
         conn.close()    
 
 LOGGER.info("Generating USER_SESSION_STRING")
-app = Client(
+try:
+    PREMIUM_USER = False
+    SESSION_STRING = getConfig('SESSION_STRING')
+    if len(SESSION_STRING) == 0:
+        raise KeyError
+    app = Client(
+    ":memory:", api_id=int(TELEGRAM_API), api_hash=TELEGRAM_HASH, session_string=SESSION_STRING
+)
+    with app:
+        PREMIUM_USER = app.get_me().is_premium
+except:
+    app = Client(
     ":memory:", api_id=int(TELEGRAM_API), api_hash=TELEGRAM_HASH, bot_token=BOT_TOKEN
 )
 
@@ -365,12 +376,15 @@ except KeyError:
 
 try:
     TG_SPLIT_SIZE = getConfig('TG_SPLIT_SIZE')
-    if len(TG_SPLIT_SIZE) == 0 or int(TG_SPLIT_SIZE) > 2097152000:
+    if len(TG_SPLIT_SIZE) == 0 or (not PREMIUM_USER and TG_SPLIT_SIZE > 2097152000) or TG_SPLIT_SIZE > 4194304000:
         raise KeyError
     else:
         TG_SPLIT_SIZE = int(TG_SPLIT_SIZE)
-except KeyError:
-    TG_SPLIT_SIZE = 2097152000
+except:
+    if PREMIUM_USER:
+        TG_SPLIT_SIZE = 4194304000
+    else:
+        TG_SPLIT_SIZE = 2097152000
 try:
     AS_DOCUMENT = getConfig('AS_DOCUMENT')
     AS_DOCUMENT = AS_DOCUMENT.lower() == 'true'

@@ -43,6 +43,9 @@ This project is heavily inspired from @out386 's telegram bot which is written i
 - Extract password protected files (It's not hack, you have to enter password)
 - For extracting password protected files, using custom filename and download
 - Update bot at startup and with restart command using `UPSTREAM_REPO`
+- Log Chat for mirror messages
+- Telegram Premium 4GB upload
+- Custom Name for all links except torrents. Must add extension except stream/yt links.
 
 ## Multi Search IDs
 To use list from multi TD/folder. Run driveid.py in your terminal and follow it. It will generate **drive_folder** file or u can simply create `drive_folder` file in working directory and fill it, check below format:
@@ -155,7 +158,9 @@ Fill up rest of the fields. Meaning of each field is discussed below:
 - `CLONE_LIMIT`: To limit the size of Google Drive folder/file which you can clone. Don't add unit. Default unit is `GB`.
 - `VIEW_LINK`: View Link button to open file Index Link in browser instead of direct download link, you can figure out if it's compatible with your Index code or not, open any video from you Index and check if its URL ends with `?a=view`, if yes make it `True`, compatible with [BhadooIndex](https://gitlab.com/ParveenBhadooOfficial/Google-Drive-Index) Code. Default is `False`. `Bool`
 - `IGNORE_PENDING_REQUESTS`: Ignore pending requests after restart. Default is `False`. `Bool`
-- `TG_SPLIT_SIZE`: Size of split in bytes. Default is `2GB`.
+- `SESSION_STRING`: To download/upload from your telegram account. To generate session string use this command `python3 generate_string_session.py` after mounting repo folder for sure.
+ - **NOTE**: You can't use bot with private message, use it with group or channel.
+- `TG_SPLIT_SIZE`: Size of split in bytes. Default is `2GB`. Default is `4GB` if your account is premium.
 - `AS_DOCUMENT`: Default type of Telegram file upload. Default is `False` mean as media. `Bool`
 - `CUSTOM_FILENAME`: Add custom word to leeched file name.
 - `SHORTENER_API`: Fill your Shortener API key.
@@ -164,6 +169,7 @@ Fill up rest of the fields. Meaning of each field is discussed below:
   >exe.io gplinks.in shrinkme.io urlshortx.com shortzon.com
 - `CRYPT`: Cookie for gdtot google drive link generator.
 - `RECURSIVE_SEARCH`: T/F And Fill drive_folder File Using Driveid.py Script.
+- `LOGS_CHATS`:  Chat ids of channels/groups where you want to store Mirror logs, NOTE Add bot in Mirror logs channel/group as Admin.
 
   - `BUTTON_THREE_NAME`:
   - `BUTTON_THREE_URL`:

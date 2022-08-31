@@ -472,6 +472,11 @@ def _mirror(bot, update,isTar=False, isZip=False, extract=False, isLeech=False, 
         if res != "":
             sendMessage(res, bot, update)
             return
+        try:
+            name = name_args[1]
+            name = name.strip()
+        except IndexError:
+            name = name
         LOGGER.info(f"Download Name : {name}")
         drive = gdriveTools.GoogleDriveHelper(name, listener)
         gid = "".join(
@@ -506,6 +511,14 @@ def _mirror(bot, update,isTar=False, isZip=False, extract=False, isLeech=False, 
         Interval.append(
             setInterval(DOWNLOAD_STATUS_UPDATE_INTERVAL, update_all_messages)
         )
+    if multi > 1:
+        time.sleep(3)
+        update.message.message_id = update.message.reply_to_message.message_id + 1 
+        update.message = sendMessage(message_args[0], bot, update)
+        multi -= 1
+        time.sleep(3)
+        threading.Thread(target=_mirror, args=(bot, update, isTar, isZip, extract, isLeech, pswd, multi)).start()
+    return
 
 def mirror(update, context):
     _mirror(context.bot, update)

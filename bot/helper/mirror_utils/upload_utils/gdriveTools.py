@@ -750,11 +750,11 @@ class GoogleDriveHelper:
             meta = self.getFileMetadata(file_id)
             path = f"{DOWNLOAD_DIR}{self.__listener.uid}/"
             if meta.get("mimeType") == self.__G_DRIVE_DIR_MIME_TYPE:
-                self.download_folder(file_id, path, meta.get("name"))
+                self.download_folder(file_id, path, self.name)
             else:
                 os.makedirs(path)
                 self.download_file(
-                    file_id, path, meta.get("name"), meta.get("mimeType")
+                    file_id, path, self.name, meta.get("mimeType")
                 )
         except Exception as err:
             if isinstance(err, RetryError):
