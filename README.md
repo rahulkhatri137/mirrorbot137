@@ -42,6 +42,7 @@ This project is heavily inspired from @out386 's telegram bot which is written i
 - Count Drive Files.
 - Extract password protected files (It's not hack, you have to enter password)
 - For extracting password protected files, using custom filename and download
+- Update bot at startup and with restart command using `UPSTREAM_REPO`
 
 ## Multi Search IDs
 To use list from multi TD/folder. Run driveid.py in your terminal and follow it. It will generate **drive_folder** file or u can simply create `drive_folder` file in working directory and fill it, check below format:
@@ -134,6 +135,9 @@ Fill up rest of the fields. Meaning of each field is discussed below:
 
 **2. Optional Fields**
 
+- `UPSTREAM_REPO`: Your github repository link, if your repo is private add `https://username:{githubtoken}@github.com/{username}/{reponame}` format. Get token from [Github settings](https://github.com/settings/tokens). So you can update your bot from filled repository on each restart.
+  - **NOTE**: Any change in docker or requirements you need to deploy/build again with updated repo to take effect. DON'T delete .gitignore file.
+- `UPSTREAM_BRANCH`: Upstream branch for update. Default is `master`.
 - `ACCOUNTS_ZIP_URL`: Only if you want to load your Service Account externally from an Index Link or by any direct download link NOT webpage link. Archive the accounts folder to ZIP file. Fill this with the direct download link of zip file. If index need authentication so add direct download as shown below:
   - `https://username:password@example.workers.dev/...`
 - `TOKEN_PICKLE_URL`: Only if you want to load your **token.pickle** externally from an Index Link. Fill this with the direct link of that file.
