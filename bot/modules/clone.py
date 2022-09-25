@@ -5,16 +5,41 @@ from bot.helper.telegram_helper.message_utils import *
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.mirror_utils.status_utils.clone_status import CloneStatus
-from bot import dispatcher, LOGGER, STOP_DUPLICATE_CLONE, download_dict, download_dict_lock, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, CLONE_LIMIT, LOGS_CHATS
+from bot import dispatcher, LOGGER, STOP_DUPLICATE_CLONE, download_dict, download_dict_lock, Interval, DOWNLOAD_STATUS_UPDATE_INTERVAL, CLONE_LIMIT, BOT_PM, LOGS_CHATS
 from bot.helper.ext_utils.bot_utils import setInterval, check_limit
 from bot.helper.ext_utils.bot_utils import get_readable_file_size, is_gdrive_link, is_gdtot_link, new_thread
 from bot.helper.mirror_utils.download_utils.direct_link_generator import gdtot
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
+from bot.helper.telegram_helper import button_build
 import random
 import string
+import threading
 
 @new_thread
 def cloneNode(update, context):
+    if not update.message.chat.type == 'private' and BOT_PM:
+        try:
+            msg1 = f"New Task"
+            send = bot.sendMessage(
+                chat_id=update.message.from_user.id,
+                text=msg1,
+            )
+            send.delete()
+        except Exception as e:
+            LOGGER.warning(e)
+            if update.message.from_user.username:
+                uname = f"@{update.message.from_user.username}"
+            else:
+                uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+            buttons = button_build.ButtonMaker()
+            buttons.buildbutton("Start Bot", f"https://t.me/{bot.get_me().username}?start=start")
+            help_msg = f"Dear {uname}, Start the bot in PM first."
+            reply_message = sendMarkup(
+                help_msg, context.bot, update, InlineKeyboardMarkup(buttons.build_menu(2))
+            )
+            threading.Thread(target=auto_delete_message, args=(context.bot, update, reply_message)).start()
+            return reply_message
+
     args = update.message.text.split(" ", maxsplit=1)
     reply_to = update.message.reply_to_message
     if len(args) > 1:
@@ -90,6 +115,14 @@ def cloneNode(update, context):
             sendMessage(men + result, context.bot, update)
         else:
             sendMarkup(result + cc, context.bot, update, button)
+            if not update.message.chat.type == 'private' and BOT_PM:
+                try:
+                    msg1 = f'<b>File Cloned: </b> <code>{name}</code>\n'
+                    msg1 += f'<b>Size: </b>{get_readable_file_size(size)}\n'
+                    msg1 += f'<b>By: </b>{uname}\n'
+                    bot.sendMessage(chat_id=update.message.from_user.id, text=msg1, reply_markup=button, parse_mode=ParseMode.HTML)
+                except Exception as e:
+                    LOGGER.warning(e)
             if LOGS_CHATS:
                 try:
                     for i in LOGS_CHATS:

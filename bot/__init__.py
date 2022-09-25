@@ -198,6 +198,11 @@ try:
 except:
     logging.warning('Logs Chat Details not provided!')
     pass
+try:	
+    BOT_PM = getConfig('BOT_PM')	
+    BOT_PM = BOT_PM.lower() == 'true'	
+except KeyError:	
+    BOT_PM = False
 
 try:
     CRYPT = getConfig('CRYPT')

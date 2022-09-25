@@ -46,6 +46,7 @@ This project is heavily inspired from @out386 's telegram bot which is written i
 - Log Chat for mirror messages
 - Telegram Premium 4GB upload
 - Custom Name for all links except torrents. Must add extension except stream/yt links.
+- Send files directly to PM
 
 ## Multi Search IDs
 To use list from multi TD/folder. Run driveid.py in your terminal and follow it. It will generate **drive_folder** file or u can simply create `drive_folder` file in working directory and fill it, check below format:
@@ -170,6 +171,7 @@ Fill up rest of the fields. Meaning of each field is discussed below:
 - `CRYPT`: Cookie for gdtot google drive link generator.
 - `RECURSIVE_SEARCH`: T/F And Fill drive_folder File Using Driveid.py Script.
 - `LOGS_CHATS`:  Chat ids of channels/groups where you want to store Mirror logs, NOTE Add bot in Mirror logs channel/group as Admin.
+- `BOT_PM`:  Set to "True" if you want files to be sent to user PM
 
   - `BUTTON_THREE_NAME`:
   - `BUTTON_THREE_URL`:

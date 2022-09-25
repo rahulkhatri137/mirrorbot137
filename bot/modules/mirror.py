@@ -33,6 +33,7 @@ from bot import (
     download_dict_lock,
     TG_SPLIT_SIZE,
     VIEW_LINK,
+    BOT_PM,
     LOGS_CHATS,
 
 )
@@ -244,6 +245,14 @@ class MirrorListener(listeners.MirrorListeners):
                         fmsg = ''
                 if fmsg != '':
                     sendMessage(msg + fmsg, self.bot, self.update)
+            if not self.message.chat.type == 'private' and BOT_PM:
+                try:
+                    msg1 = f"<b>Files Leeched</b>\n"
+                    msg1 += f"<b>By:</b> {uname}\n"
+                    msg1 += f'<b>Total Files:</b> {count}\n'
+                    bot.sendMessage(chat_id=self.self.message.from_user.id, text=msg1, parse_mode=ParseMode.HTML)
+                except Exception as e:
+                    LOGGER.warning(e)
             if LOGS_CHATS:
                 try:
                     for i in LOGS_CHATS:
@@ -310,6 +319,14 @@ class MirrorListener(listeners.MirrorListeners):
                 uname = f'<a href="tg://user?id={self.message.from_user.id}">{self.message.from_user.first_name}</a>'
             if uname is not None:
                 msg += f"\n\ncc : {uname}"
+                if not self.message.chat.type == 'private' and BOT_PM:
+                    try:
+                        msg1 = f'<b>File Uploaded: </b> <code>{download_dict[self.uid].name()}</code>\n'
+                        msg1 += f'<b>Size: </b>{size}\n'
+                        msg1 += f'<b>By: </b>{uname}\n'
+                        bot.sendMessage(chat_id=self.self.message.from_user.id, text=msg1, reply_markup=InlineKeyboardMarkup(buttons.build_menu(2)), parse_mode=ParseMode.HTML)
+                    except Exception as e:
+                        LOGGER.warning(e)
                 if LOGS_CHATS:
                     try:
                         for i in LOGS_CHATS:
@@ -356,6 +373,28 @@ class MirrorListener(listeners.MirrorListeners):
 
 
 def _mirror(bot, update,isTar=False, isZip=False, extract=False, isLeech=False, pswd=None, multi=0):
+    if not update.message.chat.type == 'private' and BOT_PM:
+        try:
+            msg1 = f"New Task"
+            send = bot.sendMessage(
+                chat_id=update.message.from_user.id,
+                text=msg1,
+            )
+            send.delete()
+        except Exception as e:
+            LOGGER.warning(e)
+            if update.message.from_user.username:
+                uname = f"@{update.message.from_user.username}"
+            else:
+                uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
+            buttons = button_build.ButtonMaker()
+            buttons.buildbutton("Start Bot", f"https://t.me/{bot.get_me().username}?start=start")
+            help_msg = f"Dear {uname}, Start the bot in PM first."
+            reply_message = sendMarkup(
+                help_msg, bot, update, InlineKeyboardMarkup(buttons.build_menu(2))
+            )
+            threading.Thread(target=auto_delete_message, args=(bot, update, reply_message)).start()
+            return reply_message
     mesg = update.message.text.split("\n")
     message_args = mesg[0].split(" ")
     name_args = mesg[0].split("|")

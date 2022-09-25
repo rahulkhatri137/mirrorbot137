@@ -6,7 +6,7 @@ from pyrogram.errors import FloodWait, RPCError
 from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
 
-from bot import app, DOWNLOAD_DIR, AS_DOCUMENT, AS_DOC_USERS, AS_MEDIA_USERS, LOGS_CHATS, CUSTOM_FILENAME
+from bot import app, DOWNLOAD_DIR, AS_DOCUMENT, AS_DOC_USERS, AS_MEDIA_USERS, BOT_PM, LOGS_CHATS, CUSTOM_FILENAME
 from bot.helper.ext_utils.fs_utils import take_ss 
 
 LOGGER = logging.getLogger(__name__)
@@ -35,6 +35,7 @@ class TgUploader:
         self.thumb = f"Thumbnails/{self.user_id}.jpg"
         self.sent_msg = self.__app.get_messages(self.chat_id, self.message_id)
         self.corrupted = 0
+        self.isPrivate = listener.message.chat.type in ['private', 'group']
 
     def upload(self):
         msgs_dict = {}
@@ -98,6 +99,11 @@ class TgUploader:
                                                               supports_streaming=True,
                                                               disable_notification=True,
                                                               progress=self.upload_progress)
+                    if not self.isPrivate and BOT_PM:
+                        try:
+                            app.send_video(self.user_id, video=self.sent_msg.video.file_id, caption=cap_mono)
+                        except Exception as err:
+                            LOGGER.error(f"Failed To Send Video in PM:\n{err}")
                     try:
                         for i in LOGS_CHATS:
                             app.send_video(i, video=self.sent_msg.video.file_id, caption=cap_mono)
@@ -120,6 +126,11 @@ class TgUploader:
                                                               thumb=thumb,
                                                               disable_notification=True,
                                                               progress=self.upload_progress)
+                    if not self.isPrivate and BOT_PM:
+                        try:
+                            app.send_audio(self.user_id, audio=self.sent_msg.audio.file_id, caption=cap_mono)
+                        except Exception as err:
+                            LOGGER.error(f"Failed To Send Audio in PM:\n{err}")
                     try:
                         for i in LOGS_CHATS:
                             app.send_audio(i, audio=self.sent_msg.audio.file_id, caption=cap_mono)
@@ -131,6 +142,11 @@ class TgUploader:
                                                               caption=cap_mono,
                                                               disable_notification=True,
                                                               progress=self.upload_progress)
+                    if not self.isPrivate and BOT_PM:
+                        try:
+                            app.send_photo(self.user_id, photo=self.sent_msg.photo.file_id, caption=cap_mono)
+                        except Exception as err:
+                            LOGGER.error(f"Failed To Send Photo in PM:\n{err}")
                     try:
                         for i in LOGS_CHATS:
                             app.send_photo(i, photo=self.sent_msg.photo.file_id, caption=cap_mono)
@@ -149,6 +165,11 @@ class TgUploader:
                                                              caption=cap_mono,
                                                              disable_notification=True,
                                                              progress=self.upload_progress)
+                if not self.isPrivate and BOT_PM:
+                    try:
+                        app.send_document(self.user_id, document=self.sent_msg.document.file_id, caption=cap_mono)
+                    except Exception as err:
+                        LOGGER.error(f"Failed To Send file in PM:\n{err}")
                 try:
                     for i in LOGS_CHATS:
                         app.send_document(i, document=self.sent_msg.document.file_id, caption=cap_mono)
