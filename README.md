@@ -93,13 +93,12 @@ pip3 install -r requirements-cli.txt
 
 - Start docker daemon (skip if already running):
 ````
-
 sudo dockerd
-
 ````
 
 - Build Docker image:
-```sudo docker build . -t mirror-bot
+```
+sudo docker build . -t mirror-bot
 ````
 
 - Run the image:
@@ -108,11 +107,11 @@ sudo dockerd
 sudo docker run mirror-bot
 ```
 
- </details>
+</details>
 
 
 <details>   
-    <summary>Setting up config file</summary>
+<summary>Setting up config file</summary>
 
 ```
 cp config_sample.env config.env

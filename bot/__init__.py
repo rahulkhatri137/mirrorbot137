@@ -462,6 +462,7 @@ try:
         raise KeyError
 except KeyError:
     UPTOBOX_TOKEN = None
-updater = tg.Updater(token=BOT_TOKEN)
+tgDefaults = tg.Defaults(parse_mode='HTML', disable_web_page_preview=True, allow_sending_without_reply=True)
+updater = tg.Updater(token=BOT_TOKEN, defaults=tgDefaults, request_kwargs={'read_timeout': 20, 'connect_timeout': 15})
 bot = updater.bot
 dispatcher = updater.dispatcher
