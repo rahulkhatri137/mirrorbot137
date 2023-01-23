@@ -99,7 +99,8 @@ sudo dockerd
 ````
 
 - Build Docker image:
-```sudo docker build . -t mirror-bot
+```
+sudo docker build . -t mirror-bot
 ````
 
 - Run the image:
