@@ -8,7 +8,7 @@ js2py
 lk21
 lxml
 megasdkrestclient
-psutil
+psutil==5.9.0
 pybase64
 hachoir
 pillow
