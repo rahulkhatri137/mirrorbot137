@@ -13,7 +13,7 @@ pybase64
 hachoir
 pillow
 speedtest-cli
-cfscrape
+cloudscraper
 Pyrogram==2.0.93
 python-dotenv
 python-magic
