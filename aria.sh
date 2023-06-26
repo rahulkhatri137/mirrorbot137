@@ -1,19 +1,10 @@
-TRACKERS=$(curl -Ns https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all_udp.txt | awk '$1' | tr '\n' ',')
+TRACKERS=$(curl -Ns https://ngosang.github.io/trackerslist/trackers_all_http.txt | awk '$0' | tr '\n\n' ',')
 
-aria2c \
---allow-overwrite=true \
---bt-enable-lpd=true \
---bt-max-peers=0 \
---bt-tracker="[$TRACKERS]" \
---check-certificate=false \
---daemon=true \
---enable-rpc \
---follow-torrent=mem \
---max-connection-per-server=16 \
---max-overall-upload-limit=1K \
---peer-agent=qBittorrent/4.3.6 \
---peer-id-prefix=-qB4360- \
---seed-time=0 \
---bt-tracker-connect-timeout=300 \
---bt-stop-timeout=1200 \
---user-agent=qBittorrent/4.3.6
+aria2c --allow-overwrite=true --auto-file-renaming=true --bt-enable-lpd=true --bt-detach-seed-only=true \
+       --bt-remove-unselected-file=true --bt-tracker="[$TRACKERS]" --bt-max-peers=0 --enable-rpc=true \
+       --rpc-max-request-size=1024M --max-connection-per-server=10 --max-concurrent-downloads=10 --split=10 \
+       --seed-ratio=0 --check-integrity=true --continue=true --daemon=true --disk-cache=40M --force-save=true \
+       --min-split-size=10M --follow-torrent=mem --check-certificate=false --optimize-concurrent-downloads=true \
+       --http-accept-gzip=true --max-file-not-found=0 --max-tries=20  --peer-id-prefix=-qB4520- --reuse-uri=true \
+       --content-disposition-default-utf8=true --user-agent=Wget/1.12 --peer-agent=qBittorrent/4.5.2 --quiet=true \
+       --summary-interval=0 --max-upload-limit=1K
