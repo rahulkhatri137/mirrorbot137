@@ -30,7 +30,7 @@ def list_drive(update, context):
 list_handler = CommandHandler(
     BotCommands.ListCommand,
     list_drive,
-    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user,
+    filters=CustomFilters.authorized,
     run_async=True,
 )
 dispatcher.add_handler(list_handler)

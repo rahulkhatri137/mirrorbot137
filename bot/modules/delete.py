@@ -32,7 +32,7 @@ def deletefile(update, context):
 delete_handler = CommandHandler(
     command=BotCommands.DeleteCommand,
     callback=deletefile,
-    filters=CustomFilters.owner_filter | CustomFilters.sudo_user,
+    filters=CustomFilters.sudo,
     run_async=True,
 )
 dispatcher.add_handler(delete_handler)

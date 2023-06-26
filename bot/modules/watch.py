@@ -51,11 +51,8 @@ def _watch(bot, update, isTar=False, isZip=False, isLeech=False, pswd=None):
 
     if not is_url(link):
         msg = f"/{BotCommands.WatchCommand} [yt_dl supported link] [quality] |[CustomName] to mirror with youtube_dl.\n\n"
-        msg += "<b>Note :- Quality and custom name are optional</b>\n\nExample of quality :- audio, 144, 240, 360, 480, 720, 1080, 2160."
-        msg += "\n\nIf you want to use custom filename, enter it after |"
-        msg += "\n\nIf you want to add password to zip, enter it after pwsd:"
-        msg += f"\n\nExample :-\n<code>/{BotCommands.ZipWatchCommand} https://youtu.be/X8Uf3hu0hWY |Raftaar Goat pswd: video123</code>\n\n"
-        msg += "This will upload encrypted video zip, whose password will be <b>video123</b> And Custom name will be <b>Raftaar Goat</b> "
+        msg += "<b>Note :- Quality and custom name are optional</b>"
+        msg += f"\n\nExample :-\n<code>/{BotCommands.WatchCommand} URL 720 | NAME pswd: password</code>\n\n"
         return sendMessage(msg, bot, update)
 
     listener = MirrorListener(bot, update, isTar, isZip, isLeech=isLeech, pswd=pswd)
@@ -157,17 +154,17 @@ def leechWatchTar(update, context):
     _watch(context.bot, update, True, isLeech=True)
 
 watch_handler = CommandHandler(BotCommands.WatchCommand, watch,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                filters=CustomFilters.authorized, run_async=True)
 zip_watch_handler = CommandHandler(BotCommands.ZipWatchCommand, watchZip,
-                                    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                    filters=CustomFilters.authorized, run_async=True)
 tar_watch_handler = CommandHandler(BotCommands.TarWatchCommand, watchTar,
-                                    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                    filters=CustomFilters.authorized, run_async=True)
 leech_watch_handler = CommandHandler(BotCommands.LeechWatchCommand, leechWatch,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                filters=CustomFilters.authorized, run_async=True)
 leech_zip_watch_handler = CommandHandler(BotCommands.LeechZipWatchCommand, leechWatchZip,
-                                    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                    filters=CustomFilters.authorized, run_async=True)
 leech_tar_watch_handler = CommandHandler(BotCommands.LeechTarWatchCommand, leechWatchTar,
-                                    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                    filters=CustomFilters.authorized, run_async=True)
 quality_handler = CallbackQueryHandler(select_format, pattern="qual", run_async=True)
 
 dispatcher.add_handler(watch_handler)
