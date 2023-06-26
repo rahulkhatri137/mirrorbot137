@@ -245,14 +245,6 @@ class MirrorListener(listeners.MirrorListeners):
                         fmsg = ''
                 if fmsg != '':
                     sendMessage(msg + fmsg, self.bot, self.update)
-            if not self.message.chat.type == 'private' and BOT_PM:
-                try:
-                    msg1 = f"<b>Files Leeched</b>\n"
-                    msg1 += f"<b>By:</b> {uname}\n"
-                    msg1 += f'<b>Total Files:</b> {count}\n'
-                    bot.sendMessage(chat_id=self.self.message.from_user.id, text=msg1, parse_mode=ParseMode.HTML)
-                except Exception as e:
-                    LOGGER.warning(e)
             if LOGS_CHATS:
                 try:
                     for i in LOGS_CHATS:
@@ -261,7 +253,15 @@ class MirrorListener(listeners.MirrorListeners):
                         msg1 += f'<b>Total Files:</b> {count}\n'
                         bot.sendMessage(chat_id=i, text=msg1, parse_mode=ParseMode.HTML)
                 except Exception as e:
-                    LOGGER.warning(e)                                           
+                    LOGGER.warning(e)  
+            if not self.message.chat.type == 'private' and BOT_PM:
+                try:
+                    msg1 = f"<b>Files Leeched</b>\n"
+                    msg1 += f"<b>By:</b> {uname}\n"
+                    msg1 += f'<b>Total Files:</b> {count}\n'
+                    bot.sendMessage(chat_id=self.self.message.from_user.id, text=msg1, parse_mode=ParseMode.HTML)
+                except Exception as e:
+                    LOGGER.warning(e)
             with download_dict_lock:
                 try:
                     fs_utils.clean_download(download_dict[self.uid].path())
@@ -319,14 +319,6 @@ class MirrorListener(listeners.MirrorListeners):
                 uname = f'<a href="tg://user?id={self.message.from_user.id}">{self.message.from_user.first_name}</a>'
             if uname is not None:
                 msg += f"\n\ncc : {uname}"
-                if not self.message.chat.type == 'private' and BOT_PM:
-                    try:
-                        msg1 = f'<b>File Uploaded: </b> <code>{download_dict[self.uid].name()}</code>\n'
-                        msg1 += f'<b>Size: </b>{size}\n'
-                        msg1 += f'<b>By: </b>{uname}\n'
-                        bot.sendMessage(chat_id=self.self.message.from_user.id, text=msg1, reply_markup=InlineKeyboardMarkup(buttons.build_menu(2)), parse_mode=ParseMode.HTML)
-                    except Exception as e:
-                        LOGGER.warning(e)
                 if LOGS_CHATS:
                     try:
                         for i in LOGS_CHATS:
@@ -335,7 +327,15 @@ class MirrorListener(listeners.MirrorListeners):
                             msg1 += f'<b>By: </b>{uname}\n'
                             bot.sendMessage(chat_id=i, text=msg1, reply_markup=InlineKeyboardMarkup(buttons.build_menu(2)), parse_mode=ParseMode.HTML)
                     except Exception as e:
-                        LOGGER.warning(e)                                           
+                        LOGGER.warning(e)
+                if not self.message.chat.type == 'private' and BOT_PM:
+                    try:
+                        msg1 = f'<b>File Uploaded: </b> <code>{download_dict[self.uid].name()}</code>\n'
+                        msg1 += f'<b>Size: </b>{size}\n'
+                        msg1 += f'<b>By: </b>{uname}\n'
+                        bot.sendMessage(chat_id=self.self.message.from_user.id, text=msg1, reply_markup=InlineKeyboardMarkup(buttons.build_menu(2)), parse_mode=ParseMode.HTML)
+                    except Exception as e:
+                        LOGGER.warning(e)                              
             try:
                 fs_utils.clean_download(download_dict[self.uid].path())
             except FileNotFoundError:
@@ -375,7 +375,7 @@ class MirrorListener(listeners.MirrorListeners):
 def _mirror(bot, update,isTar=False, isZip=False, extract=False, isLeech=False, pswd=None, multi=0):
     if not update.message.chat.type == 'private' and BOT_PM:
         try:
-            msg1 = f"New Task"
+            msg1 = f"New Link Task"
             send = bot.sendMessage(
                 chat_id=update.message.from_user.id,
                 text=msg1,
@@ -389,7 +389,7 @@ def _mirror(bot, update,isTar=False, isZip=False, extract=False, isLeech=False, 
                 uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
             buttons = button_build.ButtonMaker()
             buttons.buildbutton("Start Bot", f"https://t.me/{bot.get_me().username}?start=start")
-            help_msg = f"Dear {uname}, Start the bot in PM first."
+            help_msg = f"{uname}, Start the bot in PM first."
             reply_message = sendMarkup(
                 help_msg, bot, update, InlineKeyboardMarkup(buttons.build_menu(2))
             )
@@ -550,6 +550,7 @@ def _mirror(bot, update,isTar=False, isZip=False, extract=False, isLeech=False, 
         Interval.append(
             setInterval(DOWNLOAD_STATUS_UPDATE_INTERVAL, update_all_messages)
         )
+
     if multi > 1:
         time.sleep(3)
         update.message.message_id = update.message.reply_to_message.message_id + 1 
@@ -587,35 +588,35 @@ def zip_leech(update, context):
 mirror_handler = CommandHandler(
     BotCommands.MirrorCommand,
     mirror,
-    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user,
+    filters=CustomFilters.authorized,
     run_async=True,
 )
 zip_mirror_handler = CommandHandler(
     BotCommands.ZipMirrorCommand,
     zip_mirror,
-    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user,
+    filters=CustomFilters.authorized,
     run_async=True,
 )
 tar_mirror_handler = CommandHandler(
     BotCommands.TarMirrorCommand,
     tar_mirror,
-    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user,
+    filters=CustomFilters.authorized,
     run_async=True,
 )
 unzip_mirror_handler = CommandHandler(
     BotCommands.UnzipMirrorCommand,
     unzip_mirror,
-    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user,
+    filters=CustomFilters.authorized,
     run_async=True,
 )
 leech_handler = CommandHandler(BotCommands.LeechCommand, leech,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                filters=CustomFilters.authorized, run_async=True)
 tar_leech_handler = CommandHandler(BotCommands.TarLeechCommand, tar_leech,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                filters=CustomFilters.authorized, run_async=True)
 unzip_leech_handler = CommandHandler(BotCommands.UnzipLeechCommand, unzip_leech,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                filters=CustomFilters.authorized, run_async=True)
 zip_leech_handler = CommandHandler(BotCommands.ZipLeechCommand, zip_leech,
-                                filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+                                filters=CustomFilters.authorized, run_async=True)
 dispatcher.add_handler(mirror_handler)
 dispatcher.add_handler(zip_mirror_handler)
 dispatcher.add_handler(unzip_mirror_handler)

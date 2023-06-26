@@ -38,5 +38,5 @@ def countNode(update,context):
     else:
         sendMessage("Provide G-Drive Or Gdtot Shareable Link to Count.",context.bot,update)
 
-count_handler = CommandHandler(BotCommands.CountCommand,countNode,filters=CustomFilters.authorized_chat | CustomFilters.authorized_user)
+count_handler = CommandHandler(BotCommands.CountCommand,countNode,filters=CustomFilters.authorized)
 dispatcher.add_handler(count_handler)

@@ -19,7 +19,7 @@ import threading
 def cloneNode(update, context):
     if not update.message.chat.type == 'private' and BOT_PM:
         try:
-            msg1 = f"New Task"
+            msg1 = f"New Link Task"
             send = bot.sendMessage(
                 chat_id=update.message.from_user.id,
                 text=msg1,
@@ -33,13 +33,12 @@ def cloneNode(update, context):
                 uname = f'<a href="tg://user?id={update.message.from_user.id}">{update.message.from_user.first_name}</a>'
             buttons = button_build.ButtonMaker()
             buttons.buildbutton("Start Bot", f"https://t.me/{bot.get_me().username}?start=start")
-            help_msg = f"Dear {uname}, Start the bot in PM first."
+            help_msg = f"{uname}, Start the bot in PM first."
             reply_message = sendMarkup(
                 help_msg, context.bot, update, InlineKeyboardMarkup(buttons.build_menu(2))
             )
             threading.Thread(target=auto_delete_message, args=(context.bot, update, reply_message)).start()
             return reply_message
-
     args = update.message.text.split(" ", maxsplit=1)
     reply_to = update.message.reply_to_message
     if len(args) > 1:
@@ -137,5 +136,5 @@ def cloneNode(update, context):
     else:
         sendMessage('Provide G-Drive Or Gdtot Shareable Link to Clone.', context.bot, update)
         
-clone_handler = CommandHandler(BotCommands.CloneCommand, cloneNode, filters=CustomFilters.authorized_chat | CustomFilters.authorized_user, run_async=True)
+clone_handler = CommandHandler(BotCommands.CloneCommand, cloneNode, filters=CustomFilters.authorized, run_async=True)
 dispatcher.add_handler(clone_handler)

@@ -36,7 +36,7 @@ def mirror_status(update, context):
 mirror_status_handler = CommandHandler(
     BotCommands.StatusCommand,
     mirror_status,
-    filters=CustomFilters.authorized_chat | CustomFilters.authorized_user,
+    filters=CustomFilters.authorized,
     run_async=True,
 )
 dispatcher.add_handler(mirror_status_handler)
