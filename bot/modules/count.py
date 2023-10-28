@@ -21,7 +21,7 @@ def countNode(update,context):
     gdtot_link = is_gdtot_link(link)
     if gdtot_link:
         try:
-            msg = sendMessage(f"Bypassing GDTOT Link.", context.bot, update)
+            msg = sendMessage("Bypassing GDTOT Link.", context.bot, update)
             link = gdtot(link)
             deleteMessage(context.bot, msg)
         except DirectDownloadLinkException as e:

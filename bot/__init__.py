@@ -33,9 +33,7 @@ logging.basicConfig(
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
     level=logging.INFO,
 )
-#Config And Heroku Support
-CONFIG_FILE_URL = os.environ.get('CONFIG_FILE_URL')
-if CONFIG_FILE_URL:
+if CONFIG_FILE_URL := os.environ.get('CONFIG_FILE_URL'):
     if len(CONFIG_FILE_URL) == 0:
             CONFIG_FILE_URL = None
     if CONFIG_FILE_URL is not None:
@@ -98,21 +96,16 @@ if os.path.exists('drive_folder'):
                 UNI_INDEX_URL.append(None)
 try:
     RECURSIVE_SEARCH = getConfig("RECURSIVE_SEARCH")
-    if RECURSIVE_SEARCH.lower() == "true":
-        RECURSIVE_SEARCH = True
-    else:
-        RECURSIVE_SEARCH = False
+    RECURSIVE_SEARCH = RECURSIVE_SEARCH.lower() == "true"
 except KeyError:
     RECURSIVE_SEARCH = False
-                
+
 
 if RECURSIVE_SEARCH:
-    if DRIVE_ID:
-        pass
-    else :
+    if not DRIVE_ID:
         LOGGER.error("Fill Drive_Folder File For Multi Drive Search!")
         exit(1)    
-        
+
 
 aria2 = aria2p.API(
     aria2p.Client(
@@ -136,7 +129,6 @@ def aria2c_init():
                 aria2.remove([download], force=True, files=True)
     except Exception as e:
         logging.error(f"Aria2c initializing error: {e}")
-        pass
 
 threading.Thread(target=aria2c_init).start()
 time.sleep(0.5)
@@ -197,7 +189,6 @@ try:
         LOGS_CHATS.add(int(chats))
 except:
     logging.warning('Logs Chat Details not provided!')
-    pass
 try:	
     BOT_PM = getConfig('BOT_PM')	
     BOT_PM = BOT_PM.lower() == 'true'	
@@ -223,7 +214,7 @@ try:
     parent_id = getConfig("GDRIVE_FOLDER_ID")
     DOWNLOAD_DIR = getConfig("DOWNLOAD_DIR")
     if not DOWNLOAD_DIR.endswith("/"):
-        DOWNLOAD_DIR = DOWNLOAD_DIR + "/"
+        DOWNLOAD_DIR = f"{DOWNLOAD_DIR}/"
     DOWNLOAD_STATUS_UPDATE_INTERVAL = int(getConfig("DOWNLOAD_STATUS_UPDATE_INTERVAL"))
     OWNER_ID = int(getConfig("OWNER_ID"))
     AUTO_DELETE_MESSAGE_DURATION = int(getConfig("AUTO_DELETE_MESSAGE_DURATION"))
@@ -231,7 +222,7 @@ try:
     TELEGRAM_HASH = getConfig("TELEGRAM_HASH")
 except KeyError as missing:
     LOGGER.error("One or more env variables missing! Exiting now ")
-    LOGGER.error(str(missing) + " Env Variable Is Missing.")
+    LOGGER.error(f"{str(missing)} Env Variable Is Missing.")
     exit(1)
 
 try:
@@ -350,10 +341,7 @@ except KeyError:
 
 try:
     USE_SERVICE_ACCOUNTS = getConfig("USE_SERVICE_ACCOUNTS")
-    if USE_SERVICE_ACCOUNTS.lower() == "true":
-        USE_SERVICE_ACCOUNTS = True
-    else:
-        USE_SERVICE_ACCOUNTS = False
+    USE_SERVICE_ACCOUNTS = USE_SERVICE_ACCOUNTS.lower() == "true"
 except KeyError:
     USE_SERVICE_ACCOUNTS = False
 
@@ -386,10 +374,7 @@ try:
     else:
         TG_SPLIT_SIZE = int(TG_SPLIT_SIZE)
 except:
-    if PREMIUM_USER:
-        TG_SPLIT_SIZE = 4194304000
-    else:
-        TG_SPLIT_SIZE = 2097152000
+    TG_SPLIT_SIZE = 4194304000 if PREMIUM_USER else 2097152000
 try:
     AS_DOCUMENT = getConfig('AS_DOCUMENT')
     AS_DOCUMENT = AS_DOCUMENT.lower() == 'true'
@@ -399,10 +384,7 @@ except KeyError:
 #VIEW_LINK
 try:
     VIEW_LINK = getConfig('VIEW_LINK')
-    if VIEW_LINK.lower() == 'true':
-        VIEW_LINK = True
-    else:
-        VIEW_LINK = False
+    VIEW_LINK = VIEW_LINK.lower() == 'true'
 except KeyError:
     VIEW_LINK = False
 #CLONE
@@ -415,10 +397,7 @@ except KeyError:
 
 try:
     STOP_DUPLICATE_CLONE = getConfig('STOP_DUPLICATE_CLONE')
-    if STOP_DUPLICATE_CLONE.lower() == 'true':
-        STOP_DUPLICATE_CLONE = True
-    else:
-        STOP_DUPLICATE_CLONE = False
+    STOP_DUPLICATE_CLONE = STOP_DUPLICATE_CLONE.lower() == 'true'
 except KeyError:
     STOP_DUPLICATE_CLONE = False
 #HEROKUSUPPORT    

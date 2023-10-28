@@ -18,7 +18,7 @@ def deletefile(update, context):
     except IndexError:
         msg = "send a link along with command"
 
-    if msg == "":
+    if not msg:
         drive = gdriveTools.GoogleDriveHelper()
         msg = drive.deletefile(link)
     LOGGER.info(f"this is msg : {msg}")

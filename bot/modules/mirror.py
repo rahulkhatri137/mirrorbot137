@@ -102,13 +102,13 @@ class MirrorListener(listeners.MirrorListeners):
             if name is None:  # when pyrogram's media.file_name is of NoneType
                 name = os.listdir(f"{DOWNLOAD_DIR}{self.uid}")[0]
             m_path = f"{DOWNLOAD_DIR}{self.uid}/{name}"
-        if self.isZip or self.isTar :
+        if self.isZip or self.isTar:
             try:
                 with download_dict_lock:
                     download_dict[self.uid] = TarStatus(name, m_path, size)
-                if self.isZip :
+                if self.isZip:
                     pswd = self.pswd
-                    path = m_path + ".zip"
+                    path = f"{m_path}.zip"
                     LOGGER.info(f'Zip: orig_path: {m_path}, zip_path: {path}')
                     if pswd is not None:
                         subprocess.run(["7z", "a", "-mx=0", f"-p{pswd}", path, m_path])
@@ -132,10 +132,11 @@ class MirrorListener(listeners.MirrorListeners):
                 with download_dict_lock:
                     download_dict[self.uid] = ExtractStatus(name, m_path, size)
                 pswd = self.pswd
-                if pswd is not None:
-                    archive_result = subprocess.run(["pextract", m_path, pswd])
-                else:
-                    archive_result = subprocess.run(["extract", m_path])
+                archive_result = (
+                    subprocess.run(["pextract", m_path, pswd])
+                    if pswd is not None
+                    else subprocess.run(["extract", m_path])
+                )
                 if archive_result.returncode == 0:
                     threading.Thread(target=os.remove, args=(m_path,)).start()
                     LOGGER.info(f"Deleting archive : {m_path}")
@@ -253,8 +254,8 @@ class MirrorListener(listeners.MirrorListeners):
                         msg1 += f'<b>Total Files:</b> {count}\n'
                         bot.sendMessage(chat_id=i, text=msg1, parse_mode=ParseMode.HTML)
                 except Exception as e:
-                    LOGGER.warning(e)  
-            if not self.message.chat.type == 'private' and BOT_PM:
+                    LOGGER.warning(e)
+            if self.message.chat.type != 'private' and BOT_PM:
                 try:
                     msg1 = f"<b>Files Leeched</b>\n"
                     msg1 += f"<b>By:</b> {uname}\n"
@@ -308,7 +309,7 @@ class MirrorListener(listeners.MirrorListeners):
                         if VIEW_LINK:
                             buttons.buildbutton("🌐 View Link", share_urls)
             if BUTTON_THREE_NAME is not None and BUTTON_THREE_URL is not None:
-                buttons.buildbutton(f"{BUTTON_THREE_NAME}", f"{BUTTON_THREE_URL}")               
+                buttons.buildbutton(f"{BUTTON_THREE_NAME}", f"{BUTTON_THREE_URL}")
             if BUTTON_FOUR_NAME is not None and BUTTON_FOUR_URL is not None:
                 buttons.buildbutton(f"{BUTTON_FOUR_NAME}", f"{BUTTON_FOUR_URL}")
             if BUTTON_FIVE_NAME is not None and BUTTON_FIVE_URL is not None:
@@ -328,14 +329,14 @@ class MirrorListener(listeners.MirrorListeners):
                             bot.sendMessage(chat_id=i, text=msg1, reply_markup=InlineKeyboardMarkup(buttons.build_menu(2)), parse_mode=ParseMode.HTML)
                     except Exception as e:
                         LOGGER.warning(e)
-                if not self.message.chat.type == 'private' and BOT_PM:
+                if self.message.chat.type != 'private' and BOT_PM:
                     try:
                         msg1 = f'<b>File Uploaded: </b> <code>{download_dict[self.uid].name()}</code>\n'
                         msg1 += f'<b>Size: </b>{size}\n'
                         msg1 += f'<b>By: </b>{uname}\n'
                         bot.sendMessage(chat_id=self.self.message.from_user.id, text=msg1, reply_markup=InlineKeyboardMarkup(buttons.build_menu(2)), parse_mode=ParseMode.HTML)
                     except Exception as e:
-                        LOGGER.warning(e)                              
+                        LOGGER.warning(e)
             try:
                 fs_utils.clean_download(download_dict[self.uid].path())
             except FileNotFoundError:

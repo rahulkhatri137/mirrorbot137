@@ -85,7 +85,7 @@ class TgUploader:
                     if self.is_cancelled:
                         return
                     if not file.upper().endswith(("MKV", "MP4")):
-                        file = os.path.splitext(file)[0] + '.mp4'
+                        file = f'{os.path.splitext(file)[0]}.mp4'
                         new_path = os.path.join(dirpath, file)
                         os.rename(up_path, new_path)
                         up_path = new_path

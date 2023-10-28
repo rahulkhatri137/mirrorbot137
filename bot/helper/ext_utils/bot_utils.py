@@ -127,7 +127,11 @@ def get_readable_message():
         for download in list(download_dict.values()):
             msg += f"<b>Filename:</b> <code>{download.name()}</code>"
             msg += f"\n<b>Status:</b> <i>{download.status()}</i>"
-            if download.status() != MirrorStatus.STATUS_ARCHIVING and download.status() != MirrorStatus.STATUS_EXTRACTING and download.status() != MirrorStatus.STATUS_SPLITTING:
+            if download.status() not in [
+                MirrorStatus.STATUS_ARCHIVING,
+                MirrorStatus.STATUS_EXTRACTING,
+                MirrorStatus.STATUS_SPLITTING,
+            ]:
                 msg += f"\n<code>{get_progress_bar_string(download)} {download.progress()}</code>"
                 if download.status() == MirrorStatus.STATUS_DOWNLOADING:
                     msg += f"\n<b>Downloaded:</b> {get_readable_file_size(download.processed_bytes())} of {download.size()}"
@@ -142,7 +146,6 @@ def get_readable_message():
                     msg += f"\n<b>Seeders:</b> {download.aria_download().num_seeders}" \
                         f" | <b>Peers:</b> {download.aria_download().connections}"
                 except:
-                    pass
                     try:
                         msg += f"\n<b>Seeders:</b> {download.torrent_info().num_seeds}" \
                             f" | <b>Leechers:</b> {download.torrent_info().num_leechs}"
