@@ -196,13 +196,6 @@ except KeyError:
     BOT_PM = False
 
 try:
-    CRYPT = getConfig('CRYPT')
-    if len(CRYPT) == 0:
-        raise KeyError
-except KeyError:
-    CRYPT = None
-
-try:
     CUSTOM_FILENAME = getConfig('CUSTOM_FILENAME')
     if len(CUSTOM_FILENAME) == 0:
         raise KeyError
@@ -434,13 +427,6 @@ try:
         os.remove("accounts.zip")
 except KeyError:
     pass
-#uptobox
-try:
-    UPTOBOX_TOKEN = getConfig('UPTOBOX_TOKEN')
-    if len(UPTOBOX_TOKEN) == 0:
-        raise KeyError
-except KeyError:
-    UPTOBOX_TOKEN = None
 tgDefaults = tg.Defaults(parse_mode='HTML', disable_web_page_preview=True, allow_sending_without_reply=True)
 updater = tg.Updater(token=BOT_TOKEN, defaults=tgDefaults, request_kwargs={'read_timeout': 20, 'connect_timeout': 15})
 bot = updater.bot
