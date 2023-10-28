@@ -24,10 +24,6 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.ext_utils.bot_utils import is_gdtot_link
 from bot.helper.ext_utils.exceptions import DirectDownloadLinkException
 
-fmed_list = ['fembed.net', 'fembed.com', 'femax20.com', 'fcdn.stream', 'feurl.com', 'layarkacaxxi.icu',
-             'naniplay.nanime.in', 'naniplay.nanime.biz', 'naniplay.com', 'mm9842.com']
-
-
 def direct_link_generator(link: str):
     """ direct links generator """
     if 'youtube.com' in link or 'youtu.be' in link:
@@ -48,17 +44,12 @@ def direct_link_generator(link: str):
         return onedrive(link)
     elif 'pixeldrain.com' in link:
         return pixeldrain(link)
-    elif 'antfiles.com' in link:
-    elif 'bayfiles.com' in link:
-        return anonfiles(link)
     elif 'racaty.net' in link:
         return racaty(link)
     elif '1fichier.com' in link:
         return fichier(link)
     elif is_gdtot_link(link):
         return gdtot(link)
-    elif any(x in link for x in fmed_list):
-        return fembed(link)
     elif any(x in domain for x in ['dood.watch', 'doodstream.com', 'dood.to', 'dood.so', 'dood.cx',
                                    'dood.la', 'dood.ws', 'dood.sh', 'doodstream.co', 'dood.pm',
                                    'dood.wf', 'dood.re', 'dood.video', 'dooood.com', 'dood.yt',
@@ -71,7 +62,11 @@ def direct_link_generator(link: str):
         return wetransfer(link)
     elif any(x in domain for x in ['streamhub.ink', 'streamhub.to']):
         return streamhub(link)
-    elif any(x in link for x in ['sbembed.com', 'watchsb.com', 'streamsb.net', 'sbplay.org']):
+    elif any(x in domain for x in ['fembed.net', 'fembed.com', 'femax20.com', 'fcdn.stream', 'feurl.com',
+                                   'layarkacaxxi.icu', 'naniplay.nanime.in', 'naniplay.nanime.biz', 'naniplay.com',
+                                   'mm9842.com']):
+        return fembed(link)
+    elif any(x in domain for x in ['sbembed.com', 'watchsb.com', 'streamsb.net', 'sbplay.org']):
         return sbembed(link)
     else:
         raise DirectDownloadLinkException(f'No Direct link function found for {link}')
