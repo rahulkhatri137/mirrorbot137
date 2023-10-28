@@ -153,7 +153,6 @@ Fill up rest of the fields. Meaning of each field is discussed below:
 - `MEGA_KEY`: Mega.nz API key to mirror mega.nz links. Get it from [Mega SDK Page](https://mega.nz/sdk)
 - `MEGA_USERNAME`: E-Mail ID used to sign up on mega.nz for using premium account.
 - `MEGA_PASSWORD`: Password for mega.nz account.
-- `UPTOBOX_TOKEN`: Uptobox token to mirror uptobox links. Get it from [Uptobox Premium Account](https://uptobox.com/my_account).
 - `STOP_DUPLICATE_CLONE`: Bot will check file in Drive, if it is present in Drive, downloading or cloning will be stopped. (**NOTE**: File will be checked using filename not file hash, so this feature is not perfect yet). Default is `False`. `Bool`
 - `CLONE_LIMIT`: To limit the size of Google Drive folder/file which you can clone. Don't add unit. Default unit is `GB`.
 - `VIEW_LINK`: View Link button to open file Index Link in browser instead of direct download link, you can figure out if it's compatible with your Index code or not, open any video from you Index and check if its URL ends with `?a=view`, if yes make it `True`, compatible with [BhadooIndex](https://gitlab.com/ParveenBhadooOfficial/Google-Drive-Index) Code. Default is `False`. `Bool`
@@ -167,7 +166,6 @@ Fill up rest of the fields. Meaning of each field is discussed below:
 - `SHORTENER`: Shortener URL.
   - Supported URL Shorteners:
   >exe.io gplinks.in shrinkme.io urlshortx.com shortzon.com
-- `CRYPT`: Cookie for gdtot google drive link generator.
 - `RECURSIVE_SEARCH`: T/F And Fill drive_folder File Using Driveid.py Script.
 - `LOGS_CHATS`:  Chat ids of channels/groups where you want to store Mirror logs, NOTE Add bot in Mirror logs channel/group as Admin.
 - `BOT_PM`:  Set to "True" if you want files to be sent to user PM
@@ -200,34 +198,6 @@ MAX_CONCURRENT_DOWNLOADS in aria.sh.
 pip install google-api-python-client google-auth-httplib2
 google-auth-oauthlib python3 generate_drive_token.py 
 ```
-
-## Gdtot Cookies
-To Clone or Leech gdtot link follow these steps:
-1. Login/Register to [gdtot](https://new.gdtot.top).
-2. Copy this script and paste it in browser address bar.
-   - **Note**: After pasting it check at the beginning of the script in broswer address bar if `javascript:` exists or not, if not so write it as shown below.
-   ```
-   javascript:(function () {
-     const input = document.createElement('input');
-     COOKIE = JSON.parse(JSON.stringify({cookie : document.cookie}));
-     input.value = COOKIE['cookie'].split('crypt=')[1];
-     document.body.appendChild(input);
-     input.focus();
-     input.select();
-     var result = document.execCommand('copy');
-     document.body.removeChild(input);
-     if(result)
-       alert('Crypt copied to clipboard');
-     else
-       prompt('Failed to copy Crypt. Manually copy below Crypt\n\n', input.value);
-   })();
-   ```
-   - After pressing enter your browser will prompt a alert.
-3. Now you'll get CRYPT in your clipboard
-   ```
-   NGxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxWdSVT0%3D
-   ```
-4. From this you have to paste value of CRYPT in config.env file.
 
 ## Generate Database
 
