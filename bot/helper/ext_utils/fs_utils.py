@@ -63,7 +63,7 @@ def get_path_size(path):
     return total_size
 
 def tar(org_path):
-    tar_path = org_path + ".tar"
+    tar_path = f"{org_path}.tar"
     path = pathlib.PurePath(org_path)
     LOGGER.info(f"Tar: orig_path: {org_path}, tar_path: {tar_path}")
     tar = tarfile.open(tar_path, "w")
@@ -181,7 +181,7 @@ def split(path, size, file, dirpath, split_size, start_time=0, i=1):
         total_duration = metadata.get('duration').seconds - 8
         split_size = split_size - 3000000
         while start_time < total_duration:
-            parted_name = "{}.part{}{}".format(str(base_name), str(i).zfill(3), str(extension))
+            parted_name = f"{str(base_name)}.part{str(i).zfill(3)}{str(extension)}"
             out_path = os.path.join(dirpath, parted_name)
             subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-i", 
                             path, "-ss", str(start_time), "-fs", str(split_size),
@@ -196,5 +196,5 @@ def split(path, size, file, dirpath, split_size, start_time=0, i=1):
             start_time = start_time + metadata.get('duration').seconds - 5
             i = i + 1
     else:
-        out_path = os.path.join(dirpath, file + ".")
+        out_path = os.path.join(dirpath, f"{file}.")
         subprocess.run(["split", "--numeric-suffixes=1", "--suffix-length=3", f"--bytes={split_size}", path, out_path])

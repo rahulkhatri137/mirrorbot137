@@ -22,7 +22,7 @@ class DbManger:
         self.connect()
         if self.err:
             return "There's some error check log for details"
-        sql = 'INSERT INTO users VALUES ({});'.format(chat_id)
+        sql = f'INSERT INTO users VALUES ({chat_id});'
         self.cur.execute(sql)
         self.conn.commit()
         self.disconnect()
@@ -33,7 +33,7 @@ class DbManger:
         self.connect()
         if self.err:
             return "There's some error check log for details"
-        sql = 'DELETE from users where uid = {};'.format(chat_id)
+        sql = f'DELETE from users where uid = {chat_id};'
         self.cur.execute(sql)
         self.conn.commit()
         self.disconnect()
@@ -45,14 +45,14 @@ class DbManger:
         if self.err:
             return "There's some error check log for details"
         if chat_id in AUTHORIZED_CHATS:
-            sql = 'UPDATE users SET sudo = TRUE where uid = {};'.format(chat_id)
+            sql = f'UPDATE users SET sudo = TRUE where uid = {chat_id};'
             self.cur.execute(sql)
             self.conn.commit()
             self.disconnect()
             SUDO_USERS.add(chat_id)
             return 'Successfully promoted as Sudo'
         else:
-            sql = 'INSERT INTO users VALUES ({},TRUE);'.format(chat_id)
+            sql = f'INSERT INTO users VALUES ({chat_id},TRUE);'
             self.cur.execute(sql)
             self.conn.commit()
             self.disconnect()
@@ -63,7 +63,7 @@ class DbManger:
         self.connect()
         if self.err:
             return "There's some error check log for details"
-        sql = 'UPDATE users SET sudo = FALSE where uid = {};'.format(chat_id)
+        sql = f'UPDATE users SET sudo = FALSE where uid = {chat_id};'
         self.cur.execute(sql)
         self.conn.commit()
         self.disconnect()
