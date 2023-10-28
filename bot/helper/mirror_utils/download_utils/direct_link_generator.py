@@ -50,23 +50,23 @@ def direct_link_generator(link: str):
         return fichier(link)
     elif is_gdtot_link(link):
         return gdtot(link)
-    elif any(x in domain for x in ['dood.watch', 'doodstream.com', 'dood.to', 'dood.so', 'dood.cx',
+    elif any(x in link for x in ['dood.watch', 'doodstream.com', 'dood.to', 'dood.so', 'dood.cx',
                                    'dood.la', 'dood.ws', 'dood.sh', 'doodstream.co', 'dood.pm',
                                    'dood.wf', 'dood.re', 'dood.video', 'dooood.com', 'dood.yt',
                                    'doods.yt', 'dood.stream', 'doods.pro', 'ds2play.com']):
         return doods(link)
-    elif any(x in domain for x in ['streamtape.com', 'streamtape.co', 'streamtape.cc', 'streamtape.to', 'streamtape.net',
+    elif any(x in link for x in ['streamtape.com', 'streamtape.co', 'streamtape.cc', 'streamtape.to', 'streamtape.net',
                                    'streamta.pe', 'streamtape.xyz']):
         return streamtape(link)
-    elif any(x in domain for x in ['wetransfer.com', 'we.tl']):
+    elif any(x in link for x in ['wetransfer.com', 'we.tl']):
         return wetransfer(link)
-    elif any(x in domain for x in ['streamhub.ink', 'streamhub.to']):
+    elif any(x in link for x in ['streamhub.ink', 'streamhub.to']):
         return streamhub(link)
-    elif any(x in domain for x in ['fembed.net', 'fembed.com', 'femax20.com', 'fcdn.stream', 'feurl.com',
+    elif any(x in link for x in ['fembed.net', 'fembed.com', 'femax20.com', 'fcdn.stream', 'feurl.com',
                                    'layarkacaxxi.icu', 'naniplay.nanime.in', 'naniplay.nanime.biz', 'naniplay.com',
                                    'mm9842.com']):
         return fembed(link)
-    elif any(x in domain for x in ['sbembed.com', 'watchsb.com', 'streamsb.net', 'sbplay.org']):
+    elif any(x in link for x in ['sbembed.com', 'watchsb.com', 'streamsb.net', 'sbplay.org']):
         return sbembed(link)
     else:
         raise DirectDownloadLinkException(f'No Direct link function found for {link}')
