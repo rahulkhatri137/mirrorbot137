@@ -125,7 +125,7 @@ def get_readable_message():
     with download_dict_lock:
         msg = ""
         for download in list(download_dict.values()):
-            msg += f"<b>Filename:</b> <code>{download.name()}</code>"
+            msg += f"<b>Name:</b> <code>{download.name()}</code>"
             msg += f"\n<b>Status:</b> <i>{download.status()}</i>"
             if download.status() not in [
                 MirrorStatus.STATUS_ARCHIVING,
@@ -152,7 +152,7 @@ def get_readable_message():
                     except:
                         pass
                 msg += f'\n<b>User:</b> {download.message.from_user.first_name} ➡️<code>{download.message.from_user.id}</code>'
-                msg += f"\n<b>To Stop:</b> <code>/{BotCommands.CancelMirror} {download.gid()}</code>"
+                msg += f"\n<b>Stop:</b> <code>/{BotCommands.CancelMirror} {download.gid()}</code>"
             msg += "\n\n"
         return msg    
 
