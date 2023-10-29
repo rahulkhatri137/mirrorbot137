@@ -161,8 +161,7 @@ def letsupload(url: str) -> str:
     except IndexError:
         raise DirectDownloadLinkException("No Letsupload links found\n")
     bypasser = Bypass()
-    dl_url=bypasser.bypass_url(link)
-    return dl_url
+    return bypasser.bypass_url(link)
 
 def fembed(link: str) -> str:
     """ Fembed direct link generator
@@ -246,7 +245,9 @@ def pixeldrain(url: str) -> str:
     if resp["success"]:
         return dl_link
     else:
-        raise DirectDownloadLinkException("ERROR: Cant't download due {}.".format(resp["message"]))
+        raise DirectDownloadLinkException(
+            f"""ERROR: Cant't download due {resp["message"]}."""
+        )
 
 def streamtape(url):
     splitted_url = url.split("/")

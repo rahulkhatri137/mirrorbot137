@@ -33,9 +33,7 @@ logging.basicConfig(
     handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
     level=logging.INFO,
 )
-#Config And Heroku Support
-CONFIG_FILE_URL = os.environ.get('CONFIG_FILE_URL')
-if CONFIG_FILE_URL:
+if CONFIG_FILE_URL := os.environ.get('CONFIG_FILE_URL'):
     if len(CONFIG_FILE_URL) == 0:
             CONFIG_FILE_URL = None
     if CONFIG_FILE_URL is not None:
@@ -98,21 +96,16 @@ if os.path.exists('drive_folder'):
                 UNI_INDEX_URL.append(None)
 try:
     RECURSIVE_SEARCH = getConfig("RECURSIVE_SEARCH")
-    if RECURSIVE_SEARCH.lower() == "true":
-        RECURSIVE_SEARCH = True
-    else:
-        RECURSIVE_SEARCH = False
+    RECURSIVE_SEARCH = RECURSIVE_SEARCH.lower() == "true"
 except KeyError:
     RECURSIVE_SEARCH = False
-                
+
 
 if RECURSIVE_SEARCH:
-    if DRIVE_ID:
-        pass
-    else :
+    if not DRIVE_ID:
         LOGGER.error("Fill Drive_Folder File For Multi Drive Search!")
         exit(1)    
-        
+
 
 aria2 = aria2p.API(
     aria2p.Client(
@@ -136,7 +129,6 @@ def aria2c_init():
                 aria2.remove([download], force=True, files=True)
     except Exception as e:
         logging.error(f"Aria2c initializing error: {e}")
-        pass
 
 threading.Thread(target=aria2c_init).start()
 time.sleep(0.5)
